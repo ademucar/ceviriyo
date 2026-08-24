@@ -37,10 +37,11 @@ export default function PdfMerge() {
   }
 
   return (
-    <ToolShell title="PDF" accent="Birleştir" subtitle="Birden fazla PDF seçin; seçtiğiniz sırayla tek PDF olur." steps={["Dosya Seç", "Birleştir"]} current={files.length ? 2 : 1}>
+    <ToolShell
+      cmd="pdf/birlestir" title="PDF" accent="Birleştir" subtitle="Birden fazla PDF seçin; seçtiğiniz sırayla tek PDF olur." steps={["Dosya Seç", "Birleştir"]} current={files.length ? 2 : 1}>
       <Dropzone accept="application/pdf" multiple files={files} onFiles={setFiles} />
       <PrimaryButton onClick={handleRun} disabled={loading}>{loading ? "Birleştiriliyor..." : "Birleştir"}</PrimaryButton>
-      {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
     </ToolShell>
   );
 }

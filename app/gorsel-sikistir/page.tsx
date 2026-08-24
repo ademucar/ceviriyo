@@ -28,6 +28,7 @@ export default function ImageCompress() {
 
   return (
     <ToolShell
+      cmd="gorsel/sikistir"
       title="Görsel"
       accent="Sıkıştır"
       subtitle="Kaliteyi ayarlayarak dosya boyutunu küçültün. Format korunur."
@@ -36,11 +37,11 @@ export default function ImageCompress() {
     >
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={handleFiles} />
 
-      {decoding && <p className="mt-4 text-sm text-slate-400">Görsel açılıyor...</p>}
+      {decoding && <p className="mt-4 text-xs text-[var(--fg-dim)]">Görsel açılıyor...</p>}
 
       {url && (
         <>
-          <div className="mt-5 overflow-hidden rounded-xl border border-white/10 bg-black/30 p-2">
+          <div className="mt-5 overflow-hidden border border-[var(--line)] bg-[var(--bg)] p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               ref={imgRef}
@@ -53,9 +54,9 @@ export default function ImageCompress() {
 
           {lossy ? (
             <div className="mt-5">
-              <label htmlFor="kalite" className="mb-2 flex items-center justify-between text-sm text-slate-400">
+              <label htmlFor="kalite" className="tag mb-2 flex items-center justify-between">
                 <span>Kalite</span>
-                <span className="text-slate-300">%{quality}</span>
+                <span className="text-[var(--accent)]">%{quality}</span>
               </label>
               <input
                 id="kalite"
@@ -65,11 +66,11 @@ export default function ImageCompress() {
                 step={5}
                 value={quality}
                 onChange={(e) => setQuality(Number(e.target.value))}
-                className="w-full accent-violet-500"
+                className="w-full"
               />
             </div>
           ) : (
-            <p className="mt-5 text-sm text-amber-400">
+            <p className="mt-5 text-xs text-[var(--warn)]">
               PNG kayıpsız bir formattır; kalite düşürülerek küçültülemez. Boyutu azaltmak için
               Boyutlandır aracını kullanabilir ya da görseli JPG/WebP olarak Görsel Dönüştürücü
               üzerinden kaydedebilirsiniz.
@@ -86,7 +87,7 @@ export default function ImageCompress() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
-      {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
     </ToolShell>
   );
 }

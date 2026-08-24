@@ -9,34 +9,35 @@ type Props = {
 
 export default function ResultBar({ originalSize, result, busy }: Props) {
   const change = result ? 1 - result.blob.size / originalSize : 0;
+  const pct = Math.round(change * 100);
 
   return (
-    <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+    <div className="mt-5 border border-[var(--line)] bg-[var(--bg)] p-3 text-xs">
       {busy || !result ? (
-        <p className="text-slate-400">Hesaplanıyor...</p>
+        <p className="text-[var(--fg-dim)]">
+          <span className="text-[var(--accent)]">::</span> hesaplaniyor
+          <span className="caret" />
+        </p>
       ) : (
-        <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="space-y-1">
           {result.reduced && (
-            <p className="w-full text-amber-400">
-              Görsel bu cihaz için çok büyüktü; küçültülerek işlendi.
+            <p className="text-[var(--warn)]">
+              <span className="text-[var(--fg-faint)]">!!</span> gorsel bu cihaz icin cok buyuktu,
+              kucultulerek islendi
             </p>
           )}
-          <span className="text-slate-400">
-            {formatBytes(originalSize)} →{" "}
-            <span className="text-slate-200">{formatBytes(result.blob.size)}</span>
-            <span className="ml-2 text-slate-500">
-              {result.width}×{result.height}
+          <p className="text-[var(--fg-dim)]">
+            <span className="text-[var(--accent)]">::</span> {formatBytes(originalSize)}
+            <span className="mx-1.5 text-[var(--line-2)]">-&gt;</span>
+            <span className="text-[var(--fg)]">{formatBytes(result.blob.size)}</span>
+            <span className="ml-2 text-[var(--fg-faint)]">
+              {result.width}x{result.height}
             </span>
-          </span>
-          {(() => {
-            const pct = Math.round(change * 100);
-            if (pct === 0) return <span className="text-slate-500">boyut aynı</span>;
-            return (
-              <span className={pct > 0 ? "font-medium text-emerald-400" : "text-amber-400"}>
-                {pct > 0 ? `%${pct} küçüldü` : `%${Math.abs(pct)} büyüdü`}
-              </span>
-            );
-          })()}
+          </p>
+          <p className={pct === 0 ? "text-[var(--fg-faint)]" : pct > 0 ? "text-[var(--accent)]" : "text-[var(--warn)]"}>
+            <span className="text-[var(--fg-faint)]">::</span>{" "}
+            {pct === 0 ? "boyut ayni" : pct > 0 ? `%${pct} kucudu` : `%${Math.abs(pct)} buyudu`}
+          </p>
         </div>
       )}
     </div>

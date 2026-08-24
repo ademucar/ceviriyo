@@ -58,22 +58,23 @@ export default function Home() {
   }
 
   return (
-    <ToolShell title="Görselinizi" accent="Dönüştürün" subtitle="JPG, PNG, WebP ve HEIC/HEIF dosyalarını hızlıca çevirin." steps={["Dosya Seç", "Format Seç", "Dönüştür"]} current={loading ? 3 : file ? 2 : 1}>
+    <ToolShell
+      cmd="gorsel/donustur" title="Görselinizi" accent="Dönüştürün" subtitle="JPG, PNG, WebP ve HEIC/HEIF dosyalarını hızlıca çevirin." steps={["Dosya Seç", "Format Seç", "Dönüştür"]} current={loading ? 3 : file ? 2 : 1}>
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={(f) => setFile(f[0] ?? null)} />
       {file && isHeic(file) && (
-        <p className="mt-3 text-sm text-violet-300">
+        <p className="mt-3 text-xs text-[var(--accent)]">
           HEIC/HEIF algılandı; dönüştürme biraz uzun sürebilir.
         </p>
       )}
       <div className="mt-5">
-        <label htmlFor="hedef-format" className="mb-2 block text-sm text-slate-400">Hedef format</label>
-        <select id="hedef-format" value={target} onChange={(e) => setTarget(e.target.value)} className="w-full rounded-xl border border-white/10 bg-white/5 p-3 text-slate-200 outline-none focus:border-violet-400/60">
-          {FORMATS.map((f) => <option key={f.value} value={f.value} className="bg-slate-900">{f.label}</option>)}
+        <label htmlFor="hedef-format" className="tag mb-2 block">Hedef format</label>
+        <select id="hedef-format" value={target} onChange={(e) => setTarget(e.target.value)} className="field">
+          {FORMATS.map((f) => <option key={f.value} value={f.value} >{f.label}</option>)}
         </select>
       </div>
       <PrimaryButton onClick={handleConvert} disabled={!file || loading}>{loading ? "Dönüştürülüyor..." : "Dönüştür"}</PrimaryButton>
-      {notice && <p className="mt-4 text-sm text-amber-400">{notice}</p>}
-      {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
+      {notice && <p className="mt-4 text-xs text-[var(--warn)]">{notice}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
     </ToolShell>
   );
 }

@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/app/components/Sidebar";
 import MobileNav from "@/app/components/MobileNav";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+// Tek yazı ailesi: arayüzün tamamı monospace
+const mono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Çeviriyo",
@@ -23,10 +27,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${mono.variable} antialiased`}>
         <div className="flex min-h-dvh">
           <Sidebar />
-          <div className="flex-1">
+          <div className="min-w-0 flex-1">
             <MobileNav />
             <main className="px-[clamp(0.75rem,3.5vw,2.5rem)] py-[clamp(1rem,4vh,2.5rem)]">
               {children}

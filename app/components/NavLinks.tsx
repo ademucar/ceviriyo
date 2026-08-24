@@ -2,27 +2,35 @@
 import Link from "next/link";
 import { groups } from "@/app/lib/nav";
 
-export default function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
+export default function NavLinks({
+  pathname,
+  onNavigate,
+}: {
+  pathname: string;
+  onNavigate?: () => void;
+}) {
   return (
     <nav className="flex flex-col gap-5">
       {groups.map((group) => (
-        <div key={group.label} className="flex flex-col gap-1">
-          <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">{group.label}</p>
-          {group.items.map(({ href, label, icon: Icon }) => {
+        <div key={group.label} className="flex flex-col">
+          <p className="tag mb-1.5 px-1">{group.label}</p>
+          {group.items.map(({ href, label }, i, arr) => {
             const active = pathname === href;
+            const branch = i === arr.length - 1 ? "└─" : "├─";
             return (
               <Link
                 key={href}
                 href={href}
                 onClick={onNavigate}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
+                aria-current={active ? "page" : undefined}
+                className={`px-1 py-1 text-xs transition-colors ${
                   active
-                    ? "bg-gradient-to-r from-violet-600/30 to-indigo-600/10 text-white ring-1 ring-violet-500/40"
-                    : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+                    ? "text-[var(--accent)]"
+                    : "text-[var(--fg-dim)] hover:text-[var(--fg)]"
                 }`}
               >
-                <Icon className="h-[18px] w-[18px]" />
-                {label}
+                <span className="text-[var(--line-2)]">{branch}</span> {label}
+                {active && <span className="ml-1 text-[var(--accent)]">*</span>}
               </Link>
             );
           })}

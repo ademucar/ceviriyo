@@ -31,6 +31,7 @@ export default function ImageCrop() {
 
   return (
     <ToolShell
+      cmd="gorsel/kirp"
       title="Görsel"
       accent="Kırp"
       subtitle="Görselin istediğiniz bölümünü seçip kesin. Format korunur."
@@ -39,26 +40,26 @@ export default function ImageCrop() {
     >
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={handleFiles} />
 
-      {decoding && <p className="mt-4 text-sm text-slate-400">Görsel açılıyor...</p>}
+      {decoding && <p className="mt-4 text-xs text-[var(--fg-dim)]">Görsel açılıyor...</p>}
 
       {url && (
         <>
           <div className="mt-5">
             <div className="mb-2 flex items-center justify-between">
-              <label className="text-sm text-slate-400">Kırpma alanı</label>
+              <label className="tag">Kırpma alanı</label>
               {completedCrop && (
                 <button
                   onClick={() => {
                     setCrop(undefined);
                     setCompletedCrop(null);
                   }}
-                  className="text-xs text-violet-300 hover:text-violet-200"
+                  className="text-[11px] text-[var(--accent)] hover:underline"
                 >
                   Sıfırla
                 </button>
               )}
             </div>
-            <div className="crop-fit overflow-hidden rounded-xl border border-white/10 bg-black/30 p-2">
+            <div className="crop-fit overflow-hidden border border-[var(--line)] bg-[var(--bg)] p-2">
               <ReactCrop crop={crop} onChange={setCrop} onComplete={setCompletedCrop}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -70,7 +71,7 @@ export default function ImageCrop() {
                 />
               </ReactCrop>
             </div>
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-[11px] text-[var(--fg-faint)]">
               Sürükleyerek bir alan seçin; seçmezseniz görselin tamamı kullanılır.
             </p>
           </div>
@@ -85,7 +86,7 @@ export default function ImageCrop() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
-      {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
     </ToolShell>
   );
 }

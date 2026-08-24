@@ -1,6 +1,5 @@
 "use client";
 import { useRef, useState } from "react";
-import { UploadCloud } from "lucide-react";
 
 type Props = {
   accept: string;
@@ -36,10 +35,10 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
         const dropped = Array.from(e.dataTransfer.files);
         onFiles(multiple ? dropped : dropped.slice(0, 1));
       }}
-      className={`group cursor-pointer rounded-2xl border-2 border-dashed p-8 text-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 ${
+      className={`cursor-pointer border border-dashed p-6 transition-colors ${
         drag
-          ? "border-violet-400 bg-violet-500/10"
-          : "border-white/15 hover:border-violet-400/60 hover:bg-white/[0.03]"
+          ? "border-[var(--accent)] bg-[var(--panel-2)]"
+          : "border-[var(--line-2)] hover:border-[var(--accent-d)] hover:bg-[var(--panel-2)]"
       }`}
     >
       <input
@@ -53,18 +52,26 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
           e.target.value = "";
         }}
       />
-      <div className="mx-auto mb-3 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-violet-500/80 to-indigo-600/80 shadow-lg shadow-violet-600/30">
-        <UploadCloud className="h-7 w-7 text-white" />
-      </div>
+
       {files.length === 0 ? (
-        <>
-          <p className="font-medium text-slate-200">Dosyalarınızı buraya sürükleyin veya seçin</p>
-          <p className="mt-1 text-sm text-slate-500">{multiple ? "Bir veya birden fazla dosya" : "Tek dosya"}</p>
-        </>
+        <div className="text-xs leading-relaxed">
+          <p className="text-[var(--fg-dim)]">
+            <span className="text-[var(--accent)]">┌─</span> dosya sürükleyin ya da tıklayın
+          </p>
+          <p className="mt-1 text-[var(--fg-faint)]">
+            <span className="text-[var(--accent)]">└─</span>{" "}
+            {multiple ? "bir veya birden fazla dosya" : "tek dosya"}
+            <span className="caret" />
+          </p>
+        </div>
       ) : (
-        <div className="text-sm" role="status" aria-live="polite">
-          <p className="font-medium text-violet-300">{files.length} dosya seçildi</p>
-          <p className="mt-1 truncate text-slate-500">{files.map((f) => f.name).join(", ")}</p>
+        <div className="text-xs leading-relaxed" role="status" aria-live="polite">
+          <p className="text-[var(--accent)]">
+            <span className="text-[var(--fg-faint)]">┌─</span> {files.length} dosya seçildi
+          </p>
+          <p className="mt-1 truncate text-[var(--fg-dim)]">
+            <span className="text-[var(--fg-faint)]">└─</span> {files.map((f) => f.name).join(", ")}
+          </p>
         </div>
       )}
     </div>

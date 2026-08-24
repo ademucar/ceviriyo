@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Gizlilik Politikası — Çeviriyo",
@@ -11,8 +10,8 @@ const UPDATED = "15 Ağustos 2026";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-8">
-      <h2 className="mb-3 text-lg font-semibold text-white">{title}</h2>
-      <div className="space-y-3 text-sm leading-relaxed text-slate-400">{children}</div>
+      <h2 className="tag mb-2">{title}</h2>
+      <div className="space-y-3 text-xs leading-relaxed text-[var(--fg-dim)]">{children}</div>
     </section>
   );
 }
@@ -20,20 +19,19 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export default function Privacy() {
   return (
     <div className="mx-auto w-full max-w-2xl">
-      <div className="mb-[clamp(1rem,4vh,2rem)] text-center">
-        <h1 className="text-[clamp(1.5rem,5.5vmin,2.25rem)] font-bold tracking-tight text-white">
-          Gizlilik <span className="text-gradient">Politikası</span>
-        </h1>
-        <p className="mt-2 text-[clamp(0.85rem,2.6vmin,1rem)] text-slate-400">
-          Son güncelleme: {UPDATED}
-        </p>
+      <div className="frame flex items-center justify-between px-3 py-2">
+        <span className="text-[11px] text-[var(--fg-faint)]">ceviriyo ~ gizlilik-politikasi</span>
+        <span className="text-[11px] text-[var(--fg-faint)]">{UPDATED}</span>
       </div>
 
-      <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-[clamp(0.9rem,3.5vmin,2rem)] shadow-2xl shadow-black/40">
-        <div className="flex items-start gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4">
-          <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
-          <p className="text-sm leading-relaxed text-slate-300">
-            <strong className="text-white">Özet:</strong> Yüklediğiniz dosyalar sunucularımıza
+      <div className="frame border-t-0 p-[clamp(0.9rem,3.5vmin,1.75rem)]">
+        <h1 className="text-[clamp(1.15rem,4.4vmin,1.6rem)] font-bold tracking-tight text-[var(--fg)]">
+          Gizlilik <span className="text-[var(--accent)]">Politikası</span>
+        </h1>
+        <hr className="rule my-5" />
+        <div className="border-l-2 border-[var(--accent)] bg-[var(--panel-2)] py-3 pl-3 pr-3">
+          <p className="text-xs leading-relaxed text-[var(--fg)]">
+            <strong className="text-[var(--accent)]">[ozet]</strong> Yüklediğiniz dosyalar sunucularımıza
             gönderilmez. Tüm dönüştürme işlemleri kendi cihazınızın tarayıcısında yapılır.
             Dosyalarınızı görmüyor, saklamıyor ve kimseyle paylaşmıyoruz.
           </p>
@@ -42,7 +40,7 @@ export default function Privacy() {
         <Section title="Veri sorumlusu">
           <p>
             Bu site, 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında veri sorumlusu
-            sıfatıyla <strong className="text-slate-300">Adem Uçar</strong> tarafından
+            sıfatıyla <strong className="text-[var(--fg)]">Adem Uçar</strong> tarafından
             işletilmektedir. Her türlü soru ve talebiniz için sayfanın sonundaki iletişim
             adresinden ulaşabilirsiniz.
           </p>
@@ -67,7 +65,7 @@ export default function Privacy() {
 
         <Section title="Hangi verileri topluyoruz?">
           <p>
-            <strong className="text-slate-300">Biz hiçbir kişisel veri toplamıyoruz.</strong> Sitede
+            <strong className="text-[var(--fg)]">Biz hiçbir kişisel veri toplamıyoruz.</strong> Sitede
             üyelik, giriş, form veya iletişim alanı bulunmuyor. Adınızı, e-postanızı veya
             dosyalarınızın içeriğini istemiyoruz ve kaydetmiyoruz.
           </p>
@@ -92,7 +90,7 @@ export default function Privacy() {
           </p>
           <p>
             Siteyi ziyaret ettiğinizde bağlantı bilgileriniz teknik olarak yurt dışındaki bu
-            sunuculara ulaşır. Ancak <strong className="text-slate-300">dosyalarınız bu kapsamda
+            sunuculara ulaşır. Ancak <strong className="text-[var(--fg)]">dosyalarınız bu kapsamda
             değildir</strong>: dosyalarınız sunucuya hiçbir zaman gönderilmediği için ne bizim ne
             de barındırma sağlayıcısının erişimine açıktır.
           </p>
@@ -134,7 +132,7 @@ export default function Privacy() {
             Gizlilikle ilgili soru ve talepleriniz için bize ulaşabilirsiniz:{" "}
             <a
               href="mailto:ucaradem317@gmail.com"
-              className="text-violet-300 underline-offset-2 hover:underline"
+              className="text-[var(--accent)] hover:underline"
             >
               ucaradem317@gmail.com
             </a>

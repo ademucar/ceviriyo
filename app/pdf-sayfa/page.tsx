@@ -67,20 +67,21 @@ export default function PdfPages() {
   }
 
   return (
-    <ToolShell title="PDF" accent="Sayfa Seç / Sil" subtitle="Belirttiğiniz sayfaları tutun ya da silin." steps={["Dosya Seç", "Ayarla & Uygula"]} current={file ? 2 : 1}>
+    <ToolShell
+      cmd="pdf/sayfa-duzenle" title="PDF" accent="Sayfa Seç / Sil" subtitle="Belirttiğiniz sayfaları tutun ya da silin." steps={["Dosya Seç", "Ayarla & Uygula"]} current={file ? 2 : 1}>
       <Dropzone accept="application/pdf" files={file ? [file] : []} onFiles={(f) => setFile(f[0] ?? null)} />
       <div className="mt-5 space-y-4">
         <div className="flex gap-2">
-          <button onClick={() => setMode("keep")} className={`flex-1 rounded-lg py-2 text-sm font-medium transition ${mode === "keep" ? "bg-violet-600 text-white" : "bg-white/5 text-slate-300 hover:bg-white/10"}`}>Sadece bunları tut</button>
-          <button onClick={() => setMode("remove")} className={`flex-1 rounded-lg py-2 text-sm font-medium transition ${mode === "remove" ? "bg-violet-600 text-white" : "bg-white/5 text-slate-300 hover:bg-white/10"}`}>Bunları sil</button>
+          <button onClick={() => setMode("keep")} className={`flex-1 border py-2 text-xs transition-colors ${mode === "keep" ? "border-[var(--accent)] text-[var(--accent)]" : "border-[var(--line-2)] text-[var(--fg-dim)] hover:text-[var(--fg)]"}`}>[tut]</button>
+          <button onClick={() => setMode("remove")} className={`flex-1 border py-2 text-xs transition-colors ${mode === "remove" ? "border-[var(--accent)] text-[var(--accent)]" : "border-[var(--line-2)] text-[var(--fg-dim)] hover:text-[var(--fg)]"}`}>[sil]</button>
         </div>
         <div>
-          <label htmlFor="sayfalar" className="mb-2 block text-sm text-slate-400">Sayfalar</label>
-          <input id="sayfalar" value={pages} onChange={(e) => setPages(e.target.value)} placeholder="örn: 1,3,5-7" className="w-full rounded-xl border border-white/10 bg-white/5 p-3 text-slate-200 outline-none focus:border-violet-400/60" />
+          <label htmlFor="sayfalar" className="tag mb-2 block">Sayfalar</label>
+          <input id="sayfalar" value={pages} onChange={(e) => setPages(e.target.value)} placeholder="örn: 1,3,5-7" className="field" />
         </div>
       </div>
       <PrimaryButton onClick={handleRun} disabled={!file || loading}>{loading ? "Uygulanıyor..." : "Uygula"}</PrimaryButton>
-      {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
     </ToolShell>
   );
 }

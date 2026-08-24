@@ -1,40 +1,38 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowLeftRight } from "lucide-react";
 import NavLinks from "@/app/components/NavLinks";
 
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <aside className="hidden w-64 shrink-0 flex-col gap-6 border-r border-white/5 bg-slate-950/60 px-4 py-6 md:flex h-screen sticky top-0">
-      <Link href="/" className="flex items-center gap-3 px-2">
-        <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/20">
-          <ArrowLeftRight className="h-5 w-5 text-white" />
+    <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-[var(--line)] bg-[var(--panel)] px-3 py-5 md:flex">
+      <Link href="/" className="mb-6 block px-1">
+        <span className="block text-sm font-bold tracking-tight text-[var(--fg)]">
+          <span className="text-[var(--accent)]">$</span> ceviriyo
         </span>
-        <span>
-          <span className="block text-lg font-bold leading-tight text-white">Çeviriyo</span>
-          <span className="block text-xs text-slate-400">PDF ve Resim Aracı</span>
+        <span className="mt-0.5 block text-[10px] text-[var(--fg-faint)]">
+          pdf &amp; gorsel araclari
         </span>
       </Link>
+
       <NavLinks pathname={pathname} />
 
-      {/* Geliştirici Bilgisi Alanı */}
-      <div className="mt-auto pt-4 text-xs text-slate-500 text-center border-t border-white/5">
-        <p className="mb-2">
-          <Link href="/gizlilik" className="hover:text-slate-300 transition-colors">
-            Gizlilik Politikası
+      <div className="mt-auto border-t border-[var(--line)] pt-3 text-[10px] text-[var(--fg-faint)]">
+        <p>
+          <Link href="/gizlilik" className="hover:text-[var(--fg-dim)]">
+            gizlilik-politikasi
           </Link>
         </p>
-        <p>
-          Developed by{" "}
-          <a 
-            href="https://ademucar.com.tr/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-slate-300 font-medium hover:text-white transition-colors"
+        <p className="mt-1">
+          <span className="text-[var(--line-2)]">--</span>{" "}
+          <a
+            href="https://ademucar.com.tr/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--fg-dim)]"
           >
-            Adem Uçar
+            adem ucar
           </a>
         </p>
       </div>
