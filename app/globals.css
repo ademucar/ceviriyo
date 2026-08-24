@@ -190,6 +190,79 @@ input[type="range"]::-moz-range-thumb {
   cursor: not-allowed;
 }
 
+/* ---------- menü öğesi: imleç nereye giderse orası aydınlanır ---------- */
+
+.nav-item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  transition: color 0.18s ease, background-color 0.18s ease, padding-left 0.18s ease;
+}
+
+/* soldan içeri kayan mürekkep şeridi */
+.nav-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.18s ease;
+}
+
+.nav-item:hover::before,
+.nav-item:focus-visible::before,
+.nav-item[aria-current="page"]::before {
+  transform: scaleY(1);
+}
+
+.nav-item:hover,
+.nav-item:focus-visible {
+  background-color: var(--paper-3);
+  color: var(--ink);
+  padding-left: 0.7rem;
+}
+
+.nav-item[aria-current="page"] {
+  background-color: var(--paper-3);
+  color: var(--ink);
+  padding-left: 0.7rem;
+}
+
+/* elmas işareti imleçle birlikte döner */
+.nav-item .gem {
+  display: inline-block;
+  color: var(--rule-2);
+  transition: transform 0.25s ease, color 0.18s ease;
+}
+.nav-item:hover .gem,
+.nav-item:focus-visible .gem,
+.nav-item[aria-current="page"] .gem {
+  color: var(--accent);
+  transform: rotate(90deg);
+}
+
+/* ---------- alt bilgi bağlantıları ---------- */
+
+.foot-link {
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--ink);
+  transition: color 0.16s ease;
+}
+.foot-link:hover { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,
+  .nav-item::before,
+  .nav-item .gem { transition: none !important; }
+}
+
 /* ---------- odak görünürlüğü (erişilebilirlik) ---------- */
 
 a:focus-visible,

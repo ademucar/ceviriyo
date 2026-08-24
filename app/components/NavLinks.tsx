@@ -23,13 +23,11 @@ export default function NavLinks({
                   href={href}
                   onClick={onNavigate}
                   aria-current={active ? "page" : undefined}
-                  className={`display border-b border-[var(--rule)] px-1 py-1.5 text-[13px] transition-colors last:border-b-0 ${
-                    active
-                      ? "text-[var(--ink)]"
-                      : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
+                  className={`nav-item display border-b border-[var(--rule)] px-1 py-2 text-[13px] last:border-b-0 ${
+                    active ? "text-[var(--ink)]" : "text-[var(--ink-dim)]"
                   }`}
                 >
-                  <span className={active ? "text-[var(--accent)]" : "text-[var(--rule-2)]"}>
+                  <span className="gem" aria-hidden="true">
                     &#9670;
                   </span>{" "}
                   {label}

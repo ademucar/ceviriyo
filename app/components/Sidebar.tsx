@@ -24,17 +24,17 @@ export default function Sidebar() {
         <div className="ornament mb-3">
           <span aria-hidden="true">&#9670;</span>
         </div>
-        <p className="label">
-          <Link href="/gizlilik" className="hover:text-[var(--ink)]">
+        <p>
+          <Link href="/gizlilik" className="foot-link text-[12px]">
             Gizlilik Politikası
           </Link>
         </p>
-        <p className="mt-2 text-[10px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">
+        <p className="mt-2">
           <a
             href="https://ademucar.com.tr/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-[var(--ink-dim)]"
+            className="foot-link text-[12px]"
           >
             Adem Uçar
           </a>
