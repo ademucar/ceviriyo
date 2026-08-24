@@ -68,20 +68,20 @@ export default function PdfPages() {
 
   return (
     <ToolShell
-      cmd="pdf/sayfa-duzenle" title="PDF" accent="Sayfa Seç / Sil" subtitle="Belirttiğiniz sayfaları tutun ya da silin." steps={["Dosya Seç", "Ayarla & Uygula"]} current={file ? 2 : 1}>
+      cmd="PDF / Sayfa Düzenle" title="PDF" accent="Sayfa Seç / Sil" subtitle="Belirttiğiniz sayfaları tutun ya da silin." steps={["Dosya Seç", "Ayarla & Uygula"]} current={file ? 2 : 1}>
       <Dropzone accept="application/pdf" files={file ? [file] : []} onFiles={(f) => setFile(f[0] ?? null)} />
       <div className="mt-5 space-y-4">
         <div className="flex gap-2">
-          <button onClick={() => setMode("keep")} className={`flex-1 border py-2 text-xs transition-colors ${mode === "keep" ? "border-[var(--accent)] text-[var(--accent)]" : "border-[var(--line-2)] text-[var(--fg-dim)] hover:text-[var(--fg)]"}`}>[tut]</button>
-          <button onClick={() => setMode("remove")} className={`flex-1 border py-2 text-xs transition-colors ${mode === "remove" ? "border-[var(--accent)] text-[var(--accent)]" : "border-[var(--line-2)] text-[var(--fg-dim)] hover:text-[var(--fg)]"}`}>[sil]</button>
+          <button onClick={() => setMode("keep")} className={`label flex-1 border py-2 transition-colors ${mode === "keep" ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"}`}>Sadece bunları tut</button>
+          <button onClick={() => setMode("remove")} className={`label flex-1 border py-2 transition-colors ${mode === "remove" ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"}`}>Bunları sil</button>
         </div>
         <div>
-          <label htmlFor="sayfalar" className="tag mb-2 block">Sayfalar</label>
+          <label htmlFor="sayfalar" className="label mb-2 block">Sayfalar</label>
           <input id="sayfalar" value={pages} onChange={(e) => setPages(e.target.value)} placeholder="örn: 1,3,5-7" className="field" />
         </div>
       </div>
       <PrimaryButton onClick={handleRun} disabled={!file || loading}>{loading ? "Uygulanıyor..." : "Uygula"}</PrimaryButton>
-      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );
 }

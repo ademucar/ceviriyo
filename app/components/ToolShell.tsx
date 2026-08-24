@@ -4,7 +4,7 @@ type Props = {
   subtitle: string;
   steps?: string[];
   current?: number;
-  /** Terminal başlığında görünen komut yolu, ör: gorsel/donustur */
+  /** Üstte görünen bölüm yolu, ör: GÖRSEL / DÖNÜŞTÜR */
   cmd?: string;
   children: React.ReactNode;
 };
@@ -20,47 +20,49 @@ export default function ToolShell({
 }: Props) {
   return (
     <div className="mx-auto w-full max-w-2xl">
-      {/* pencere başlığı */}
-      <div className="frame flex items-center justify-between px-3 py-2">
-        <span className="text-[11px] text-[var(--fg-faint)]">
-          ceviriyo{cmd ? ` ~ ${cmd}` : ""}
-        </span>
-        <span className="flex gap-1.5" aria-hidden="true">
-          <span className="h-2 w-2 border border-[var(--line-2)]" />
-          <span className="h-2 w-2 border border-[var(--line-2)]" />
-          <span className="h-2 w-2 border border-[var(--accent)]" />
-        </span>
+      {cmd && (
+        <p className="label mb-3 text-center">{cmd}</p>
+      )}
+
+      <div className="ornament mb-4">
+        <span aria-hidden="true">&#9670;</span>
       </div>
 
-      {/* gövde */}
-      <div className="frame border-t-0 p-[clamp(0.9rem,3.5vmin,1.75rem)]">
-        <h1 className="text-[clamp(1.15rem,4.4vmin,1.6rem)] font-bold leading-tight tracking-tight text-[var(--fg)]">
-          {title}{" "}
-          {accent && <span className="text-[var(--accent)]">{accent}</span>}
+      <header className="text-center">
+        <h1 className="display text-[clamp(1.5rem,6vmin,2.3rem)] leading-[1.1]">
+          {title} {accent && <span className="text-[var(--accent)]">{accent}</span>}
         </h1>
-        <p className="mt-1.5 text-[clamp(0.75rem,2.4vmin,0.85rem)] text-[var(--fg-dim)]">
+        <p className="mt-2 text-[clamp(0.8rem,2.5vmin,0.95rem)] text-[var(--ink-dim)]">
           {subtitle}
         </p>
+      </header>
 
-        <hr className="rule my-5" />
+      <div className="ornament mt-4 mb-6">
+        <span aria-hidden="true">&#9670;</span>
+      </div>
 
-        {steps && (
-          <ol className="mb-5 flex flex-wrap gap-x-5 gap-y-1.5">
-            {steps.map((s, i) => {
-              const done = i + 1 <= current;
-              return (
-                <li
-                  key={s}
-                  className={`text-xs ${done ? "text-[var(--accent)]" : "text-[var(--fg-faint)]"}`}
-                >
-                  <span className="tabular-nums">[{i + 1}]</span> {s}
-                </li>
-              );
-            })}
-          </ol>
-        )}
+      {steps && (
+        <ol className="mb-5 flex flex-wrap justify-center gap-x-6 gap-y-1.5">
+          {steps.map((s, i) => {
+            const done = i + 1 <= current;
+            return (
+              <li
+                key={s}
+                className={`label ${done ? "text-[var(--ink)]" : "text-[var(--ink-faint)]"}`}
+              >
+                <span className="tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                <span className="mx-1.5 text-[var(--rule-2)]">&mdash;</span>
+                {s}
+                {done && <span className="ml-1.5 text-[var(--accent)]">&#9670;</span>}
+              </li>
+            );
+          })}
+        </ol>
+      )}
 
-        {children}
+      <div className="sheet">
+        <p className="band">Ayarlar</p>
+        <div className="p-[clamp(0.9rem,3.5vmin,1.75rem)]">{children}</div>
       </div>
     </div>
   );

@@ -35,10 +35,10 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
         const dropped = Array.from(e.dataTransfer.files);
         onFiles(multiple ? dropped : dropped.slice(0, 1));
       }}
-      className={`cursor-pointer border border-dashed p-6 transition-colors ${
+      className={`cursor-pointer border border-dashed px-4 py-7 text-center transition-colors ${
         drag
-          ? "border-[var(--accent)] bg-[var(--panel-2)]"
-          : "border-[var(--line-2)] hover:border-[var(--accent-d)] hover:bg-[var(--panel-2)]"
+          ? "border-[var(--ink)] bg-[var(--paper-3)]"
+          : "border-[var(--rule-2)] bg-[var(--paper)] hover:border-[var(--ink-dim)] hover:bg-[var(--paper-3)]"
       }`}
     >
       <input
@@ -54,23 +54,21 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
       />
 
       {files.length === 0 ? (
-        <div className="text-xs leading-relaxed">
-          <p className="text-[var(--fg-dim)]">
-            <span className="text-[var(--accent)]">┌─</span> dosya sürükleyin ya da tıklayın
-          </p>
-          <p className="mt-1 text-[var(--fg-faint)]">
-            <span className="text-[var(--accent)]">└─</span>{" "}
+        <>
+          <p className="display text-[15px]">Dosya seçin</p>
+          <p className="mt-1 text-xs text-[var(--ink-dim)]">
+            ya da buraya sürükleyin &mdash;{" "}
             {multiple ? "bir veya birden fazla dosya" : "tek dosya"}
-            <span className="caret" />
           </p>
-        </div>
+        </>
       ) : (
-        <div className="text-xs leading-relaxed" role="status" aria-live="polite">
-          <p className="text-[var(--accent)]">
-            <span className="text-[var(--fg-faint)]">┌─</span> {files.length} dosya seçildi
+        <div role="status" aria-live="polite">
+          <p className="display text-[15px]">
+            {files.length} dosya seçildi
+            <span className="ml-2 text-[var(--accent)]">&#9670;</span>
           </p>
-          <p className="mt-1 truncate text-[var(--fg-dim)]">
-            <span className="text-[var(--fg-faint)]">└─</span> {files.map((f) => f.name).join(", ")}
+          <p className="mt-1 truncate text-xs text-[var(--ink-dim)]">
+            {files.map((f) => f.name).join(", ")}
           </p>
         </div>
       )}

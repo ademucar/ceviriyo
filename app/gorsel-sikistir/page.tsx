@@ -28,7 +28,7 @@ export default function ImageCompress() {
 
   return (
     <ToolShell
-      cmd="gorsel/sikistir"
+      cmd="Görsel / Sıkıştır"
       title="Görsel"
       accent="Sıkıştır"
       subtitle="Kaliteyi ayarlayarak dosya boyutunu küçültün. Format korunur."
@@ -37,11 +37,11 @@ export default function ImageCompress() {
     >
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={handleFiles} />
 
-      {decoding && <p className="mt-4 text-xs text-[var(--fg-dim)]">Görsel açılıyor...</p>}
+      {decoding && <p className="mt-4 text-xs text-[var(--ink-dim)]">Görsel açılıyor...</p>}
 
       {url && (
         <>
-          <div className="mt-5 overflow-hidden border border-[var(--line)] bg-[var(--bg)] p-2">
+          <div className="mt-5 overflow-hidden border border-[var(--rule)] bg-[var(--paper)] p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               ref={imgRef}
@@ -54,7 +54,7 @@ export default function ImageCompress() {
 
           {lossy ? (
             <div className="mt-5">
-              <label htmlFor="kalite" className="tag mb-2 flex items-center justify-between">
+              <label htmlFor="kalite" className="label mb-2 flex items-center justify-between">
                 <span>Kalite</span>
                 <span className="text-[var(--accent)]">%{quality}</span>
               </label>
@@ -70,7 +70,7 @@ export default function ImageCompress() {
               />
             </div>
           ) : (
-            <p className="mt-5 text-xs text-[var(--warn)]">
+            <p className="mt-5 text-xs text-[var(--accent)]">
               PNG kayıpsız bir formattır; kalite düşürülerek küçültülemez. Boyutu azaltmak için
               Boyutlandır aracını kullanabilir ya da görseli JPG/WebP olarak Görsel Dönüştürücü
               üzerinden kaydedebilirsiniz.
@@ -87,7 +87,7 @@ export default function ImageCompress() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
-      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );
 }

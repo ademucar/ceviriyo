@@ -10,8 +10,8 @@ const UPDATED = "15 Ağustos 2026";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-8">
-      <h2 className="tag mb-2">{title}</h2>
-      <div className="space-y-3 text-xs leading-relaxed text-[var(--fg-dim)]">{children}</div>
+      <h2 className="band mb-3 inline-block">{title}</h2>
+      <div className="space-y-3 text-sm leading-relaxed text-[var(--ink-2)]">{children}</div>
     </section>
   );
 }
@@ -19,19 +19,27 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export default function Privacy() {
   return (
     <div className="mx-auto w-full max-w-2xl">
-      <div className="frame flex items-center justify-between px-3 py-2">
-        <span className="text-[11px] text-[var(--fg-faint)]">ceviriyo ~ gizlilik-politikasi</span>
-        <span className="text-[11px] text-[var(--fg-faint)]">{UPDATED}</span>
+      <p className="label mb-3 text-center">Belge / Gizlilik</p>
+
+      <div className="ornament mb-4">
+        <span aria-hidden="true">&#9670;</span>
       </div>
 
-      <div className="frame border-t-0 p-[clamp(0.9rem,3.5vmin,1.75rem)]">
-        <h1 className="text-[clamp(1.15rem,4.4vmin,1.6rem)] font-bold tracking-tight text-[var(--fg)]">
+      <header className="text-center">
+        <h1 className="display text-[clamp(1.5rem,6vmin,2.3rem)] leading-[1.1]">
           Gizlilik <span className="text-[var(--accent)]">Politikası</span>
         </h1>
-        <hr className="rule my-5" />
-        <div className="border-l-2 border-[var(--accent)] bg-[var(--panel-2)] py-3 pl-3 pr-3">
-          <p className="text-xs leading-relaxed text-[var(--fg)]">
-            <strong className="text-[var(--accent)]">[ozet]</strong> Yüklediğiniz dosyalar sunucularımıza
+        <p className="label mt-2">Son güncelleme: {UPDATED}</p>
+      </header>
+
+      <div className="ornament mt-4 mb-6">
+        <span aria-hidden="true">&#9670;</span>
+      </div>
+
+      <div className="sheet p-[clamp(0.9rem,3.5vmin,1.75rem)]">
+        <div className="border-l-2 border-[var(--accent)] bg-[var(--paper-3)] p-3">
+          <p className="text-sm leading-relaxed text-[var(--ink)]">
+            <strong className="display text-[var(--accent)]">Özet &mdash;</strong> Yüklediğiniz dosyalar sunucularımıza
             gönderilmez. Tüm dönüştürme işlemleri kendi cihazınızın tarayıcısında yapılır.
             Dosyalarınızı görmüyor, saklamıyor ve kimseyle paylaşmıyoruz.
           </p>
@@ -40,7 +48,7 @@ export default function Privacy() {
         <Section title="Veri sorumlusu">
           <p>
             Bu site, 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında veri sorumlusu
-            sıfatıyla <strong className="text-[var(--fg)]">Adem Uçar</strong> tarafından
+            sıfatıyla <strong className="text-[var(--ink)]">Adem Uçar</strong> tarafından
             işletilmektedir. Her türlü soru ve talebiniz için sayfanın sonundaki iletişim
             adresinden ulaşabilirsiniz.
           </p>
@@ -65,7 +73,7 @@ export default function Privacy() {
 
         <Section title="Hangi verileri topluyoruz?">
           <p>
-            <strong className="text-[var(--fg)]">Biz hiçbir kişisel veri toplamıyoruz.</strong> Sitede
+            <strong className="text-[var(--ink)]">Biz hiçbir kişisel veri toplamıyoruz.</strong> Sitede
             üyelik, giriş, form veya iletişim alanı bulunmuyor. Adınızı, e-postanızı veya
             dosyalarınızın içeriğini istemiyoruz ve kaydetmiyoruz.
           </p>
@@ -90,7 +98,7 @@ export default function Privacy() {
           </p>
           <p>
             Siteyi ziyaret ettiğinizde bağlantı bilgileriniz teknik olarak yurt dışındaki bu
-            sunuculara ulaşır. Ancak <strong className="text-[var(--fg)]">dosyalarınız bu kapsamda
+            sunuculara ulaşır. Ancak <strong className="text-[var(--ink)]">dosyalarınız bu kapsamda
             değildir</strong>: dosyalarınız sunucuya hiçbir zaman gönderilmediği için ne bizim ne
             de barındırma sağlayıcısının erişimine açıktır.
           </p>

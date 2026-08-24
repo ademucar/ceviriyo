@@ -6,33 +6,37 @@ import NavLinks from "@/app/components/NavLinks";
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-[var(--line)] bg-[var(--panel)] px-3 py-5 md:flex">
-      <Link href="/" className="mb-6 block px-1">
-        <span className="block text-sm font-bold tracking-tight text-[var(--fg)]">
-          <span className="text-[var(--accent)]">$</span> ceviriyo
-        </span>
-        <span className="mt-0.5 block text-[10px] text-[var(--fg-faint)]">
-          pdf &amp; gorsel araclari
+    <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col overflow-y-auto border-r border-[var(--rule)] bg-[var(--paper-2)] px-4 py-6 md:flex">
+      <Link href="/" className="block text-center">
+        <span className="display block text-xl tracking-[0.2em]">Çeviriyo</span>
+        <span className="mt-0.5 block text-[10px] uppercase tracking-[0.18em] text-[var(--ink-faint)]">
+          PDF &amp; Görsel Araçları
         </span>
       </Link>
 
+      <div className="ornament my-5">
+        <span aria-hidden="true">&#9670;</span>
+      </div>
+
       <NavLinks pathname={pathname} />
 
-      <div className="mt-auto border-t border-[var(--line)] pt-3 text-[10px] text-[var(--fg-faint)]">
-        <p>
-          <Link href="/gizlilik" className="hover:text-[var(--fg-dim)]">
-            gizlilik-politikasi
+      <div className="mt-auto pt-5 text-center">
+        <div className="ornament mb-3">
+          <span aria-hidden="true">&#9670;</span>
+        </div>
+        <p className="label">
+          <Link href="/gizlilik" className="hover:text-[var(--ink)]">
+            Gizlilik Politikası
           </Link>
         </p>
-        <p className="mt-1">
-          <span className="text-[var(--line-2)]">--</span>{" "}
+        <p className="mt-2 text-[10px] uppercase tracking-[0.14em] text-[var(--ink-faint)]">
           <a
             href="https://ademucar.com.tr/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-[var(--fg-dim)]"
+            className="hover:text-[var(--ink-dim)]"
           >
-            adem ucar
+            Adem Uçar
           </a>
         </p>
       </div>

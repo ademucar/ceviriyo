@@ -67,7 +67,7 @@ export default function PdfToImage() {
 
   return (
     <ToolShell
-      cmd="pdf/gorsel-yap"
+      cmd="PDF / Görsele Çevir"
       title="PDF'ten"
       accent="Görsel'e"
       subtitle="Her sayfa ayrı PNG olur. Çok sayfalıysa ZIP olarak iner."
@@ -78,7 +78,7 @@ export default function PdfToImage() {
       <PrimaryButton onClick={handleConvert} disabled={!file || loading}>
         {loading ? progress || "Dönüştürülüyor..." : "Görsele Çevir"}
       </PrimaryButton>
-      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );
 }

@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <ToolShell
-      cmd="gorsel/donustur" title="Görselinizi" accent="Dönüştürün" subtitle="JPG, PNG, WebP ve HEIC/HEIF dosyalarını hızlıca çevirin." steps={["Dosya Seç", "Format Seç", "Dönüştür"]} current={loading ? 3 : file ? 2 : 1}>
+      cmd="Görsel / Dönüştür" title="Görselinizi" accent="Dönüştürün" subtitle="JPG, PNG, WebP ve HEIC/HEIF dosyalarını hızlıca çevirin." steps={["Dosya Seç", "Format Seç", "Dönüştür"]} current={loading ? 3 : file ? 2 : 1}>
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={(f) => setFile(f[0] ?? null)} />
       {file && isHeic(file) && (
         <p className="mt-3 text-xs text-[var(--accent)]">
@@ -67,14 +67,14 @@ export default function Home() {
         </p>
       )}
       <div className="mt-5">
-        <label htmlFor="hedef-format" className="tag mb-2 block">Hedef format</label>
+        <label htmlFor="hedef-format" className="label mb-2 block">Hedef format</label>
         <select id="hedef-format" value={target} onChange={(e) => setTarget(e.target.value)} className="field">
           {FORMATS.map((f) => <option key={f.value} value={f.value} >{f.label}</option>)}
         </select>
       </div>
       <PrimaryButton onClick={handleConvert} disabled={!file || loading}>{loading ? "Dönüştürülüyor..." : "Dönüştür"}</PrimaryButton>
-      {notice && <p className="mt-4 text-xs text-[var(--warn)]">{notice}</p>}
-      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
+      {notice && <p className="mt-4 text-xs text-[var(--accent)]">{notice}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );
 }

@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Barlow_Condensed, Barlow } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/app/components/Sidebar";
 import MobileNav from "@/app/components/MobileNav";
 
-// Tek yazı ailesi: arayüzün tamamı monospace
-const mono = JetBrains_Mono({
-  variable: "--font-mono",
+// Sıkışık büyük harf başlıklar (saha el kitabı tipografisi)
+const display = Barlow_Condensed({
+  variable: "--font-display",
   subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Gövde metni
+const text = Barlow({
+  variable: "--font-text",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -27,7 +36,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr">
-      <body className={`${mono.variable} antialiased`}>
+      <body className={`${display.variable} ${text.variable} antialiased`}>
         <div className="flex min-h-dvh">
           <Sidebar />
           <div className="min-w-0 flex-1">

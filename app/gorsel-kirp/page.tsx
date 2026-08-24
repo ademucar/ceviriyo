@@ -31,7 +31,7 @@ export default function ImageCrop() {
 
   return (
     <ToolShell
-      cmd="gorsel/kirp"
+      cmd="Görsel / Kırp"
       title="Görsel"
       accent="Kırp"
       subtitle="Görselin istediğiniz bölümünü seçip kesin. Format korunur."
@@ -40,13 +40,13 @@ export default function ImageCrop() {
     >
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={handleFiles} />
 
-      {decoding && <p className="mt-4 text-xs text-[var(--fg-dim)]">Görsel açılıyor...</p>}
+      {decoding && <p className="mt-4 text-xs text-[var(--ink-dim)]">Görsel açılıyor...</p>}
 
       {url && (
         <>
           <div className="mt-5">
             <div className="mb-2 flex items-center justify-between">
-              <label className="tag">Kırpma alanı</label>
+              <label className="label">Kırpma alanı</label>
               {completedCrop && (
                 <button
                   onClick={() => {
@@ -59,7 +59,7 @@ export default function ImageCrop() {
                 </button>
               )}
             </div>
-            <div className="crop-fit overflow-hidden border border-[var(--line)] bg-[var(--bg)] p-2">
+            <div className="crop-fit overflow-hidden border border-[var(--rule)] bg-[var(--paper)] p-2">
               <ReactCrop crop={crop} onChange={setCrop} onComplete={setCompletedCrop}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -71,7 +71,7 @@ export default function ImageCrop() {
                 />
               </ReactCrop>
             </div>
-            <p className="mt-2 text-[11px] text-[var(--fg-faint)]">
+            <p className="mt-2 text-[11px] text-[var(--ink-faint)]">
               Sürükleyerek bir alan seçin; seçmezseniz görselin tamamı kullanılır.
             </p>
           </div>
@@ -86,7 +86,7 @@ export default function ImageCrop() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
-      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );
 }

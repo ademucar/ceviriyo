@@ -10,30 +10,33 @@ export default function NavLinks({
   onNavigate?: () => void;
 }) {
   return (
-    <nav className="flex flex-col gap-5">
+    <nav className="flex flex-col gap-6">
       {groups.map((group) => (
-        <div key={group.label} className="flex flex-col">
-          <p className="tag mb-1.5 px-1">{group.label}</p>
-          {group.items.map(({ href, label }, i, arr) => {
-            const active = pathname === href;
-            const branch = i === arr.length - 1 ? "└─" : "├─";
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={onNavigate}
-                aria-current={active ? "page" : undefined}
-                className={`px-1 py-1 text-xs transition-colors ${
-                  active
-                    ? "text-[var(--accent)]"
-                    : "text-[var(--fg-dim)] hover:text-[var(--fg)]"
-                }`}
-              >
-                <span className="text-[var(--line-2)]">{branch}</span> {label}
-                {active && <span className="ml-1 text-[var(--accent)]">*</span>}
-              </Link>
-            );
-          })}
+        <div key={group.label}>
+          <p className="band mb-2">{group.label}</p>
+          <div className="flex flex-col">
+            {group.items.map(({ href, label }) => {
+              const active = pathname === href;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onNavigate}
+                  aria-current={active ? "page" : undefined}
+                  className={`display border-b border-[var(--rule)] px-1 py-1.5 text-[13px] transition-colors last:border-b-0 ${
+                    active
+                      ? "text-[var(--ink)]"
+                      : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
+                  }`}
+                >
+                  <span className={active ? "text-[var(--accent)]" : "text-[var(--rule-2)]"}>
+                    &#9670;
+                  </span>{" "}
+                  {label}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       ))}
     </nav>

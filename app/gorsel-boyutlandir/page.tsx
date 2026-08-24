@@ -38,7 +38,7 @@ export default function ImageResize() {
 
   return (
     <ToolShell
-      cmd="gorsel/boyutlandir"
+      cmd="Görsel / Boyutlandır"
       title="Görsel"
       accent="Boyutlandır"
       subtitle="En-boy oranını koruyarak küçültün. Format korunur."
@@ -47,11 +47,11 @@ export default function ImageResize() {
     >
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={handleFiles} />
 
-      {decoding && <p className="mt-4 text-xs text-[var(--fg-dim)]">Görsel açılıyor...</p>}
+      {decoding && <p className="mt-4 text-xs text-[var(--ink-dim)]">Görsel açılıyor...</p>}
 
       {url && (
         <>
-          <div className="mt-5 overflow-hidden border border-[var(--line)] bg-[var(--bg)] p-2">
+          <div className="mt-5 overflow-hidden border border-[var(--rule)] bg-[var(--paper)] p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               ref={imgRef}
@@ -64,7 +64,7 @@ export default function ImageResize() {
 
           <div className="mt-5 grid grid-cols-[repeat(auto-fit,minmax(8.5rem,1fr))] gap-4">
             <div>
-              <label htmlFor="genislik" className="tag mb-2 block">Genişlik (px)</label>
+              <label htmlFor="genislik" className="label mb-2 block">Genişlik (px)</label>
               <input
                 id="genislik"
                 value={maxWidth}
@@ -75,7 +75,7 @@ export default function ImageResize() {
               />
             </div>
             <div>
-              <label htmlFor="yukseklik" className="tag mb-2 block">Yükseklik (px)</label>
+              <label htmlFor="yukseklik" className="label mb-2 block">Yükseklik (px)</label>
               <input
                 id="yukseklik"
                 value={maxHeight}
@@ -95,13 +95,13 @@ export default function ImageResize() {
                   setMaxWidth(String(p));
                   setMaxHeight("");
                 }}
-                className="border border-[var(--line-2)] px-2 py-1 text-[11px] text-[var(--fg-dim)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="border border-[var(--rule-2)] px-2 py-1 text-[11px] text-[var(--ink-dim)] transition-colors hover:border-[var(--ink)] hover:text-[var(--ink)]"
               >
                 {p}px genişlik
               </button>
             ))}
           </div>
-          <p className="mt-2 text-[11px] text-[var(--fg-faint)]">
+          <p className="mt-2 text-[11px] text-[var(--ink-faint)]">
             Sadece birini doldurabilirsiniz; oran her zaman korunur ve görsel büyütülmez.
           </p>
 
@@ -115,7 +115,7 @@ export default function ImageResize() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
-      {error && <p className="mt-4 text-xs text-[var(--danger)]">{error}</p>}
+      {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );
 }
