@@ -7,8 +7,10 @@ export default function Sidebar() {
   const pathname = usePathname();
   return (
     <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col overflow-y-auto border-r border-[var(--rule)] bg-[var(--paper-2)] px-4 py-6 md:flex">
-      <Link href="/" className="block text-center">
-        <span className="display block text-xl tracking-[0.2em]">Çeviriyo</span>
+      <Link href="/" className="flex items-center justify-center gap-2.5">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-mark.png" alt="" width={30} height={30} className="shrink-0" />
+        <span className="display text-xl tracking-[0.2em]">Çeviriyo</span>
       </Link>
 
       <div className="ornament my-5">

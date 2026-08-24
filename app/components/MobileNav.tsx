@@ -18,7 +18,9 @@ export default function MobileNav() {
   return (
     <div className="md:hidden">
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[var(--rule)] bg-[var(--paper-2)] px-3 py-2.5">
-        <Link href="/" className="tap display text-lg tracking-[0.18em]">
+        <Link href="/" className="tap display flex items-center gap-2 text-lg tracking-[0.18em]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-mark.png" alt="" width={26} height={26} className="shrink-0" />
           Çeviriyo
         </Link>
         <button
@@ -36,7 +38,11 @@ export default function MobileNav() {
           <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
           <div className="absolute left-0 top-0 flex h-full w-64 max-w-[82%] flex-col overflow-y-auto border-r border-[var(--rule)] bg-[var(--paper-2)] px-4 py-6">
             <div className="mb-4 flex items-center justify-between">
-              <span className="display text-base tracking-[0.18em]">Çeviriyo</span>
+              <span className="display flex items-center gap-2 text-base tracking-[0.18em]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo-mark.png" alt="" width={22} height={22} className="shrink-0" />
+                Çeviriyo
+              </span>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
