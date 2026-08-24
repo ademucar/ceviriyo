@@ -20,7 +20,7 @@ export default function MobileNav() {
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[var(--rule)] bg-[var(--paper-2)] px-3 py-2.5">
         <Link href="/" className="tap display flex items-center gap-2 text-lg tracking-[0.18em]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-mark.png" alt="" width={26} height={26} className="shrink-0" />
+          <img src="/logo-mark.png" alt="" width={36} height={36} className="shrink-0" />
           Çeviriyo
         </Link>
         <button
@@ -40,7 +40,7 @@ export default function MobileNav() {
             <div className="mb-4 flex items-center justify-between">
               <span className="display flex items-center gap-2 text-base tracking-[0.18em]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo-mark.png" alt="" width={22} height={22} className="shrink-0" />
+                <img src="/logo-mark.png" alt="" width={30} height={30} className="shrink-0" />
                 Çeviriyo
               </span>
               <button
