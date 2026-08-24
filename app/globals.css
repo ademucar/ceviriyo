@@ -194,7 +194,9 @@ input[type="range"]::-moz-range-thumb {
 
 .nav-item {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
   overflow: hidden;
   transition: color 0.18s ease, background-color 0.18s ease, padding-left 0.18s ease;
 }
@@ -261,6 +263,36 @@ input[type="range"]::-moz-range-thumb {
   .nav-item,
   .nav-item::before,
   .nav-item .gem { transition: none !important; }
+}
+
+/* ---------- mobil: dokunma hedefleri ve okunabilirlik ---------- */
+
+@media (max-width: 767px) {
+  /* Küçük ekranda sıkışık büyük harf etiketler 11px'te zorlanıyor */
+  .label,
+  .band { font-size: 12px; }
+
+  /* Parmakla rahat basılabilir yükseklik (WCAG 2.5.5) */
+  .nav-item { min-height: 46px; }
+
+  .field { padding-top: 0.72rem; padding-bottom: 0.72rem; }
+
+  /* Alt bilgi bağlantıları da parmakla basılabilir olsun */
+  .foot-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.5rem;
+  }
+  .run-btn { padding-top: 0.85rem; padding-bottom: 0.85rem; }
+
+  .tap {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* ---------- odak görünürlüğü (erişilebilirlik) ---------- */

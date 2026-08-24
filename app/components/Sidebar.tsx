@@ -9,9 +9,6 @@ export default function Sidebar() {
     <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col overflow-y-auto border-r border-[var(--rule)] bg-[var(--paper-2)] px-4 py-6 md:flex">
       <Link href="/" className="block text-center">
         <span className="display block text-xl tracking-[0.2em]">Çeviriyo</span>
-        <span className="mt-0.5 block text-[10px] uppercase tracking-[0.18em] text-[var(--ink-faint)]">
-          PDF &amp; Görsel Araçları
-        </span>
       </Link>
 
       <div className="ornament my-5">

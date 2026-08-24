@@ -18,13 +18,13 @@ export default function MobileNav() {
   return (
     <div className="md:hidden">
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[var(--rule)] bg-[var(--paper-2)] px-3 py-2.5">
-        <Link href="/" className="display text-lg tracking-[0.18em]">
+        <Link href="/" className="tap display text-lg tracking-[0.18em]">
           Çeviriyo
         </Link>
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="label border border-[var(--rule-2)] px-2.5 py-1 text-[var(--ink)] active:bg-[var(--paper-3)]"
+          className="tap label border border-[var(--rule-2)] px-3 text-[var(--ink)] active:bg-[var(--paper-3)]"
           aria-label="Menü"
         >
           Menü
@@ -40,7 +40,7 @@ export default function MobileNav() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="label border border-[var(--rule-2)] px-2.5 py-1 text-[var(--ink)] active:bg-[var(--paper-3)]"
+                className="tap label border border-[var(--rule-2)] px-3 text-[var(--ink)] active:bg-[var(--paper-3)]"
                 aria-label="Kapat"
               >
                 Kapat
