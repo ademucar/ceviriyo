@@ -33,7 +33,7 @@ export default function MobileNav() {
 
       {open && (
         <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-[var(--ink)]/40" onClick={() => setOpen(false)} />
+          <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
           <div className="absolute left-0 top-0 flex h-full w-64 max-w-[82%] flex-col overflow-y-auto border-r border-[var(--rule)] bg-[var(--paper-2)] px-4 py-6">
             <div className="mb-4 flex items-center justify-between">
               <span className="display text-base tracking-[0.18em]">Çeviriyo</span>

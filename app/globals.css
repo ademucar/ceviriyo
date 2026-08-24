@@ -2,24 +2,40 @@
 
 /*
  * Çeviriyo — kâğıt / arşiv belgesi arayüzü
- * Sıkışık büyük harf tipografi, saç teli çizgiler, siyah bant başlıklar.
+ * Sıkışık büyük harf tipografi, saç teli çizgiler, açık bant başlıklar.
  * Gradyan yok, yuvarlak köşe yok, gölge yok.
  */
 
 :root {
-  --paper:      #f7f4ec;
-  --paper-2:    #f1ece1;
-  --paper-3:    #e9e3d5;
-  --ink:        #17140f;
-  --ink-2:      #3d372e;
-  --ink-dim:    #6f675a;
-  --ink-faint:  #9c9384;
-  --rule:       #cfc7b6;
-  --rule-2:     #b9af9a;
-  --accent:     #8a3324;
-  --accent-2:   #6d2819;
-  --olive:      #55573a;
-  color-scheme: light;
+  /* ═══════════════════════════════════════════════════════════
+     SİTE RENGİ — tek yerden ayarlanır.
+     --paper zemin rengidir; diğer yüzeyler ondan türetilmiştir.
+
+     Daha siyah  : #0A0C10   (nötr, lacivert azalır)
+     Şu anki     : #0E121C   (siyah-lacivert arası, dengeli)
+     Daha lacivert: #111A2E  (mavi belirginleşir)
+
+     Zemini değiştirirsen --paper-2 / --paper-3 / --rule
+     değerlerini de bir tık aynı yöne kaydırman yeterli.
+     ═══════════════════════════════════════════════════════════ */
+
+  --paper:      #0e121c;   /* zemin */
+  --paper-2:    #141a27;   /* panel / kenar çubuğu */
+  --paper-3:    #1b2233;   /* vurgulu satır, hover */
+
+  --rule:       #232c3f;   /* ince çizgi */
+  --rule-2:     #35405a;   /* belirgin çizgi, form kenarı */
+
+  --ink:        #e6eaf2;   /* en güçlü metin ve açık bantlar */
+  --ink-2:      #c3cad9;   /* gövde metni */
+  --ink-dim:    #8b95ab;   /* ikincil metin */
+  --ink-faint:  #7a8499;   /* en soluk metin */
+
+  --accent:     #d2694e;   /* vurgu — koyu zeminde okunacak şekilde açıldı */
+  --accent-2:   #e0805f;
+  --olive:      #7d8a5c;
+
+  color-scheme: dark;
 }
 
 html { background: var(--paper); }
@@ -41,7 +57,7 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.35;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
 }
 
