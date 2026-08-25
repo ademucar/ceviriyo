@@ -23,15 +23,15 @@ const text = Barlow({
 export const metadata: Metadata = {
   title: "Çeviriyo",
   description: "Hızlı, kolay ve güvenli dönüştürme.",
-  // ?v=3 → tarayıcılar favicon'u çok agresif önbelleğe alır; sürüm
+  // ?v=4 → tarayıcılar favicon'u çok agresif önbelleğe alır; sürüm
   // etiketi olmadan mobilde eski ikon takılı kalıyor.
   icons: {
     icon: [
-      { url: "/favicon.ico?v=3", sizes: "any" },
-      { url: "/favicon-32x32.png?v=3", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16x16.png?v=3", type: "image/png", sizes: "16x16" },
+      { url: "/favicon.ico?v=4", sizes: "any" },
+      { url: "/favicon-32x32.png?v=4", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png?v=4", type: "image/png", sizes: "16x16" },
     ],
-    apple: "/apple-touch-icon.png?v=3",
+    apple: "/apple-touch-icon.png?v=4",
   },
 };
 
