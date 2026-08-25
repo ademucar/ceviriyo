@@ -34,6 +34,7 @@
   --accent:     #d2694e;   /* vurgu — koyu zeminde okunacak şekilde açıldı */
   --accent-2:   #e0805f;
   --olive:      #7d8a5c;
+  --shadow:     #05070d;   /* katı (bulanıksız) 3B gölge */
 
   color-scheme: dark;
 }
@@ -196,14 +197,24 @@ input[type="range"]::-moz-range-thumb {
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 0;
-  transition: background 0.12s linear, color 0.12s linear;
+  box-shadow: 4px 4px 0 var(--shadow);
+  transition: transform 0.09s ease, box-shadow 0.09s ease,
+              background 0.12s linear, color 0.12s linear;
 }
-.run-btn:hover:not(:disabled) { background: transparent; color: var(--ink); }
+.run-btn:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+.run-btn:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--shadow);
+}
 .run-btn:disabled {
   background: transparent;
   border-color: var(--rule-2);
   color: var(--ink-faint);
   cursor: not-allowed;
+  box-shadow: 2px 2px 0 var(--rule);
 }
 
 /* ---------- menü öğesi: imleç nereye giderse orası aydınlanır ---------- */
@@ -217,7 +228,24 @@ input[type="range"]::-moz-range-thumb {
   gap: 0.6rem;
   min-height: 40px;
   overflow: hidden;
-  transition: color 0.18s ease, background-color 0.18s ease, padding-left 0.18s ease;
+  /* kabartma blok: katı gölge + çerçeve */
+  padding-left: 0.6rem;
+  background: var(--paper-3);
+  border: 1px solid var(--rule-2);
+  box-shadow: 3px 3px 0 var(--shadow);
+  transition: color 0.14s ease, background-color 0.14s ease,
+              transform 0.09s ease, box-shadow 0.09s ease;
+}
+
+/* imleç üstündeyken bloğun üstüne basılmış gibi */
+.nav-item:hover,
+.nav-item:focus-visible {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+.nav-item:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--shadow);
 }
 
 /* soldan içeri kayan mürekkep şeridi */
@@ -241,16 +269,14 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .nav-item:hover,
-.nav-item:focus-visible {
-  background-color: var(--paper-3);
-  color: var(--ink);
-  padding-left: 0.7rem;
-}
+.nav-item:focus-visible { color: var(--ink); }
 
+/* bulunulan sayfa: basılı kalmış blok */
 .nav-item[aria-current="page"] {
-  background-color: var(--paper-3);
   color: var(--ink);
-  padding-left: 0.7rem;
+  border-color: var(--accent);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--shadow);
 }
 
 /* elmas işareti imleçle birlikte döner */
@@ -317,6 +343,28 @@ input[type="range"]::-moz-range-thumb {
     align-items: center;
     justify-content: center;
   }
+}
+
+/* ---------- küçük kabartma butonlar ---------- */
+
+.btn-3d {
+  box-shadow: 3px 3px 0 var(--shadow);
+  transition: transform 0.09s ease, box-shadow 0.09s ease,
+              border-color 0.14s ease, color 0.14s ease;
+}
+.btn-3d:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+.btn-3d:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,
+  .run-btn,
+  .btn-3d { transform: none !important; }
 }
 
 /* ---------- odak görünürlüğü (erişilebilirlik) ---------- */

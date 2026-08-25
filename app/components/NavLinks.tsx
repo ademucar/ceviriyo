@@ -14,7 +14,7 @@ export default function NavLinks({
       {groups.map((group) => (
         <div key={group.label}>
           <p className="band mb-2">{group.label}</p>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-2.5">
             {group.items.map(({ href, label }) => {
               const active = pathname === href;
               return (
@@ -23,7 +23,7 @@ export default function NavLinks({
                   href={href}
                   onClick={onNavigate}
                   aria-current={active ? "page" : undefined}
-                  className={`nav-item display border-b border-[var(--rule)] px-1 py-2 text-[13px] last:border-b-0 ${
+                  className={`nav-item display py-2 pr-2 text-[13px] ${
                     active ? "text-[var(--ink)]" : "text-[var(--ink-dim)]"
                   }`}
                 >

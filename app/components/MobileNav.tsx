@@ -26,7 +26,7 @@ export default function MobileNav() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="tap label border border-[var(--rule-2)] px-3 text-[var(--ink)] active:bg-[var(--paper-3)]"
+          className="tap btn-3d label border border-[var(--rule-2)] bg-[var(--paper-3)] px-3 text-[var(--ink)]"
           aria-label="Menü"
         >
           Menü
@@ -46,7 +46,7 @@ export default function MobileNav() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="tap label border border-[var(--rule-2)] px-3 text-[var(--ink)] active:bg-[var(--paper-3)]"
+                className="tap btn-3d label border border-[var(--rule-2)] bg-[var(--paper-3)] px-3 text-[var(--ink)]"
                 aria-label="Kapat"
               >
                 Kapat
