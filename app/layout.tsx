@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Barlow } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/app/components/Sidebar";
@@ -23,14 +23,20 @@ const text = Barlow({
 export const metadata: Metadata = {
   title: "Çeviriyo",
   description: "Hızlı, kolay ve güvenli dönüştürme.",
+  // ?v=2 → tarayıcılar favicon'u çok agresif önbelleğe alır; sürüm
+  // etiketi olmadan mobilde eski ikon takılı kalıyor.
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/favicon.ico?v=2", sizes: "any" },
+      { url: "/favicon-32x32.png?v=2", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png?v=2", type: "image/png", sizes: "16x16" },
     ],
-    apple: "/apple-touch-icon.png",
+    apple: "/apple-touch-icon.png?v=2",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0e121c",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -212,6 +212,9 @@ input[type="range"]::-moz-range-thumb {
   position: relative;
   display: flex;
   align-items: center;
+  /* flex konteynerde iki öğe arasındaki boşluk metni yok sayılır;
+     elmas ile etiket arasını gap ile açıyoruz */
+  gap: 0.6rem;
   min-height: 40px;
   overflow: hidden;
   transition: color 0.18s ease, background-color 0.18s ease, padding-left 0.18s ease;
@@ -252,7 +255,12 @@ input[type="range"]::-moz-range-thumb {
 
 /* elmas işareti imleçle birlikte döner */
 .nav-item .gem {
+  /* Sabit kutu: elmas döndüğünde genişliği değişip boşluğu yemesin */
+  flex: 0 0 auto;
   display: inline-block;
+  width: 0.8em;
+  text-align: center;
+  line-height: 1;
   color: var(--rule-2);
   transition: transform 0.25s ease, color 0.18s ease;
 }
