@@ -19,8 +19,6 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export default function Privacy() {
   return (
     <div className="mx-auto w-full max-w-2xl">
-      <p className="label mb-3 text-center">Belge / Gizlilik</p>
-
       <div className="ornament mb-4">
         <span aria-hidden="true">&#9670;</span>
       </div>

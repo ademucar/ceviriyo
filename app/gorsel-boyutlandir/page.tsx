@@ -38,7 +38,6 @@ export default function ImageResize() {
 
   return (
     <ToolShell
-      cmd="Görsel / Boyutlandır"
       title="Görsel"
       accent="Boyutlandır"
       subtitle="En-boy oranını koruyarak küçültün. Format korunur."

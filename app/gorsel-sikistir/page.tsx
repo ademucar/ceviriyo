@@ -28,7 +28,6 @@ export default function ImageCompress() {
 
   return (
     <ToolShell
-      cmd="Görsel / Sıkıştır"
       title="Görsel"
       accent="Sıkıştır"
       subtitle="Kaliteyi ayarlayarak dosya boyutunu küçültün. Format korunur."

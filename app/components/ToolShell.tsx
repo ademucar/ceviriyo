@@ -4,8 +4,6 @@ type Props = {
   subtitle: string;
   steps?: string[];
   current?: number;
-  /** Üstte görünen bölüm yolu, ör: GÖRSEL / DÖNÜŞTÜR */
-  cmd?: string;
   children: React.ReactNode;
 };
 
@@ -15,15 +13,10 @@ export default function ToolShell({
   subtitle,
   steps,
   current = 1,
-  cmd,
   children,
 }: Props) {
   return (
     <div className="mx-auto w-full max-w-2xl">
-      {cmd && (
-        <p className="label mb-3 text-center">{cmd}</p>
-      )}
-
       <div className="ornament mb-4">
         <span aria-hidden="true">&#9670;</span>
       </div>

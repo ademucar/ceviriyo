@@ -58,8 +58,7 @@ export default function Home() {
   }
 
   return (
-    <ToolShell
-      cmd="Görsel / Dönüştür" title="Görselinizi" accent="Dönüştürün" subtitle="JPG, PNG, WebP ve HEIC/HEIF dosyalarını hızlıca çevirin." steps={["Dosya Seç", "Format Seç", "Dönüştür"]} current={loading ? 3 : file ? 2 : 1}>
+    <ToolShell title="Görselinizi" accent="Dönüştürün" subtitle="JPG, PNG, WebP ve HEIC/HEIF dosyalarını hızlıca çevirin." steps={["Dosya Seç", "Format Seç", "Dönüştür"]} current={loading ? 3 : file ? 2 : 1}>
       <Dropzone accept="image/*,.heic,.heif" files={file ? [file] : []} onFiles={(f) => setFile(f[0] ?? null)} />
       {file && isHeic(file) && (
         <p className="mt-3 text-xs text-[var(--accent)]">

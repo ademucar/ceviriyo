@@ -62,8 +62,7 @@ export default function ImageToPdf() {
   }
 
   return (
-    <ToolShell
-      cmd="Görsel / PDF Oluştur" title="Görsellerden" accent="PDF'e" subtitle="Birden fazla görsel seçin; her biri ayrı sayfa olur.Tek bir PDF dosyası haline gelir." steps={["Dosya Seç", "PDF Oluştur"]} current={files.length ? 2 : 1}>
+    <ToolShell title="Görsellerden" accent="PDF'e" subtitle="Birden fazla görsel seçin; her biri ayrı sayfa olur.Tek bir PDF dosyası haline gelir." steps={["Dosya Seç", "PDF Oluştur"]} current={files.length ? 2 : 1}>
       <Dropzone accept="image/*" multiple files={files} onFiles={setFiles} />
       <PrimaryButton onClick={handleConvert} disabled={files.length === 0 || loading}>{loading ? "Oluşturuluyor..." : "PDF Oluştur"}</PrimaryButton>
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}

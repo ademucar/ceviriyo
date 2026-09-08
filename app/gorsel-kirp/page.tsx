@@ -31,7 +31,6 @@ export default function ImageCrop() {
 
   return (
     <ToolShell
-      cmd="Görsel / Kırp"
       title="Görsel"
       accent="Kırp"
       subtitle="Görselin istediğiniz bölümünü seçip kesin. Format korunur."

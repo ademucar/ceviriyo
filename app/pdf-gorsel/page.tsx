@@ -67,7 +67,6 @@ export default function PdfToImage() {
 
   return (
     <ToolShell
-      cmd="PDF / Görsele Çevir"
       title="PDF'ten"
       accent="Görsel'e"
       subtitle="Her sayfa ayrı PNG olur. Çok sayfalıysa ZIP olarak iner."
