@@ -31,8 +31,8 @@
   --ink-dim:    #8b95ab;   /* ikincil metin */
   --ink-faint:  #7a8499;   /* en soluk metin */
 
-  --accent:     #d2694e;   /* vurgu — koyu zeminde okunacak şekilde açıldı */
-  --accent-2:   #e0805f;
+  --accent:     #df7c5c;   /* vurgu — en açık yüzeyde (--paper-3) bile AA geçsin diye açıldı */
+  --accent-2:   #e89172;
   --olive:      #7d8a5c;
   --shadow:     #05070d;   /* katı (bulanıksız) 3B gölge */
 
@@ -64,6 +64,14 @@ body::before {
 
 ::selection { background: var(--ink); color: var(--paper); }
 
+/*
+ * Bileşen sınıfları Tailwind'in "components" katmanında.
+ * Katman sırası: theme < base < components < utilities.
+ * Böylece text-[...] / bg-[...] gibi yardımcı sınıflar bu kuralları
+ * ezebilir — aksi halde .label gibi sınıfların sabit rengi kazanıyor
+ * ve açık zeminli butonlarda yazı okunmaz hale geliyordu.
+ */
+@layer components {
 /* ---------- tipografi ---------- */
 
 .display {
@@ -308,6 +316,8 @@ input[type="range"]::-moz-range-thumb {
   transition: color 0.16s ease;
 }
 .foot-link:hover { color: var(--accent); }
+
+}
 
 @media (prefers-reduced-motion: reduce) {
   .nav-item,
