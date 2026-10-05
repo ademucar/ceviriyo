@@ -24,7 +24,7 @@ export default function NavLinks({
                   onClick={onNavigate}
                   aria-current={active ? "page" : undefined}
                   className={`nav-item display py-2 pr-2 text-[13px] ${
-                    active ? "text-[var(--ink)]" : "text-[var(--ink-dim)]"
+                    active ? "text-[var(--ink)]" : "text-[var(--ink-2)]"
                   }`}
                 >
                   <span className="gem" aria-hidden="true">

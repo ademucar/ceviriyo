@@ -48,10 +48,25 @@ export default function PdfSplit() {
   }
 
   const n = parseInt(value, 10);
-  const ranges = buildRanges(pageCount, mode, n);
+  const gecerliSayi = Number.isFinite(n) && n >= 1;
+
+  // Her parça en az 1 sayfa olacağına göre, parça sayısı sayfa sayısını aşamaz.
+  const maksParca = pageCount;
+  const etkinN = mode === "partCount" && gecerliSayi ? Math.min(n, maksParca) : n;
+  const ranges = buildRanges(pageCount, mode, etkinN);
+
+  // Kullanıcıya önceden söylenmesi gereken durumlar
+  const bolunemez = pageCount === 1;
+  const sayiAsildi = gecerliSayi && mode === "partCount" && n > maksParca && !bolunemez;
+  const tekParcaCikiyor = gecerliSayi && !bolunemez && ranges.length === 1;
+  const bolunebilir = ranges.length > 1;
 
   async function handleRun() {
     if (!file || pageCount === 0) return;
+    if (bolunemez) {
+      setError("Tek sayfalık belge bölünemez.");
+      return;
+    }
     if (ranges.length === 0) {
       setError("Geçerli bir sayı girin.");
       return;
@@ -93,7 +108,10 @@ export default function PdfSplit() {
   }
 
   const onlyDigits = (v: string) => v.replace(/[^\d]/g, "");
-  const presets = mode === "perPart" ? [1, 5, 10, 25, 50] : [2, 3, 4, 5];
+  // Hazır değerlerden yalnızca bu belgede anlamlı olanları göster
+  const presets = (mode === "perPart" ? [1, 5, 10, 25, 50] : [2, 3, 4, 5]).filter((p) =>
+    mode === "perPart" ? p < pageCount : p <= maksParca
+  );
 
   return (
     <ToolShell
@@ -147,6 +165,7 @@ export default function PdfSplit() {
               />
             </div>
 
+            {presets.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {presets.map((p) => (
                 <button
@@ -158,6 +177,7 @@ export default function PdfSplit() {
                 </button>
               ))}
             </div>
+            )}
           </div>
 
           <div className="mt-5 border border-[var(--rule)]">
@@ -172,6 +192,33 @@ export default function PdfSplit() {
                 {ranges.length > 0 ? `${ranges.length} parça` : "—"}
               </span>
             </div>
+
+            {bolunemez && (
+              <div className="row px-3 py-2">
+                <p className="text-xs text-[var(--accent)]">
+                  Bu belge tek sayfa; bölünecek bir şey yok.
+                </p>
+              </div>
+            )}
+
+            {sayiAsildi && (
+              <div className="row px-3 py-2">
+                <p className="text-xs text-[var(--accent)]">
+                  {pageCount} sayfalık belge en fazla {maksParca} parçaya bölünebilir
+                  (her parçada en az 1 sayfa). {maksParca} parça olarak hesaplandı.
+                </p>
+              </div>
+            )}
+
+            {tekParcaCikiyor && !sayiAsildi && (
+              <div className="row px-3 py-2">
+                <p className="text-xs text-[var(--accent)]">
+                  {mode === "perPart"
+                    ? `Parça başına ${n} sayfa seçilince belgenin tamamı tek parça kalıyor. Daha küçük bir sayı girin.`
+                    : "Tek parça bölme sayılmaz; en az 2 girin."}
+                </p>
+              </div>
+            )}
             {ranges.length > 0 && (
               <div className="row px-3 py-2">
                 <p className="text-xs leading-relaxed text-[var(--ink-dim)]">
@@ -188,10 +235,10 @@ export default function PdfSplit() {
         </>
       )}
 
-      <PrimaryButton onClick={handleRun} disabled={!file || pageCount === 0 || loading}>
+      <PrimaryButton onClick={handleRun} disabled={!file || !bolunebilir || loading}>
         {loading ? progress || "Bölünüyor..." : "Böl"}
       </PrimaryButton>
-      {pageCount > 0 && ranges.length > 1 && !loading && (
+      {bolunebilir && !loading && (
         <p className="mt-3 text-center text-[11px] text-[var(--ink-faint)]">
           Parçalar tek bir ZIP dosyası olarak inecek.
         </p>

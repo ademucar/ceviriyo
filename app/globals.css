@@ -295,7 +295,7 @@ input[type="range"]::-moz-range-thumb {
   width: 0.8em;
   text-align: center;
   line-height: 1;
-  color: var(--rule-2);
+  color: var(--ink-faint);
   transition: transform 0.25s ease, color 0.18s ease;
 }
 .nav-item:hover .gem,
