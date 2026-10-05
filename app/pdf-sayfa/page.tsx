@@ -71,8 +71,8 @@ export default function PdfPages() {
       <Dropzone accept="application/pdf" files={file ? [file] : []} onFiles={(f) => setFile(f[0] ?? null)} />
       <div className="mt-5 space-y-4">
         <div className="flex gap-2">
-          <button onClick={() => setMode("keep")} className={`label btn-3d flex-1 border py-2 min-h-[44px] ${mode === "keep" ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"}`}>Sadece bunları tut</button>
-          <button onClick={() => setMode("remove")} className={`label btn-3d flex-1 border py-2 min-h-[44px] ${mode === "remove" ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"}`}>Bunları sil</button>
+          <button onClick={() => setMode("keep")} className={`label btn-3d flex-1 border py-2 min-h-[44px] ${mode === "keep" ? "border-[var(--surface)] bg-[var(--surface)] text-[var(--paper)]" : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"}`}>Sadece bunları tut</button>
+          <button onClick={() => setMode("remove")} className={`label btn-3d flex-1 border py-2 min-h-[44px] ${mode === "remove" ? "border-[var(--surface)] bg-[var(--surface)] text-[var(--paper)]" : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"}`}>Bunları sil</button>
         </div>
         <div>
           <label htmlFor="sayfalar" className="label mb-2 block">Sayfalar</label>

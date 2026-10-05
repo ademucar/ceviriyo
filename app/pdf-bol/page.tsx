@@ -7,24 +7,72 @@ import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
 import { downloadBlob } from "@/app/lib/download";
 
-type Mode = "perPart" | "partCount";
+type Plan =
+  | { ok: true; boylar: number[]; araliklar: [number, number][] }
+  | { ok: false; mesaj: string; boylar: number[] };
 
-/** Sayfa aralıklarını hesaplar: [[başlangıç, bitiş], ...] (0 tabanlı, bitiş dahil) */
-function buildRanges(total: number, mode: Mode, n: number): [number, number][] {
-  if (!Number.isFinite(n) || n < 1 || total < 1) return [];
-  const per = mode === "perPart" ? n : Math.ceil(total / Math.min(n, total));
-  if (per < 1) return [];
-  const out: [number, number][] = [];
-  for (let i = 0; i < total; i += per) out.push([i, Math.min(i + per, total) - 1]);
-  return out;
+/**
+ * Parça boyutlarını hesaplar.
+ * `girilen` içinde null olanlar "otomatik"tir; kalan sayfalar onlara eşit dağıtılır.
+ */
+function planla(toplam: number, girilen: (number | null)[]): Plan {
+  const sabit = girilen.reduce<number>((a, v) => a + (v ?? 0), 0);
+  const otoAdet = girilen.filter((v) => v === null).length;
+  const kalan = toplam - sabit;
+
+  if (girilen.some((v) => v !== null && v < 1)) {
+    return { ok: false, mesaj: "Her parça en az 1 sayfa olmalı.", boylar: [] };
+  }
+  if (kalan < 0) {
+    return {
+      ok: false,
+      mesaj: `Girdiğiniz sayfalar belgeyi aşıyor: ${sabit} / ${toplam}.`,
+      boylar: [],
+    };
+  }
+  if (otoAdet === 0 && kalan > 0) {
+    return {
+      ok: false,
+      mesaj: `${kalan} sayfa artıyor. Bir parçayı boş bırakın ya da sayıları artırın.`,
+      boylar: [],
+    };
+  }
+  if (otoAdet > 0 && kalan < otoAdet) {
+    return {
+      ok: false,
+      mesaj: `Geriye ${kalan} sayfa kaldı; ${otoAdet} otomatik parçaya yetmiyor.`,
+      boylar: [],
+    };
+  }
+
+  // Kalanı otomatik parçalara eşit dağıt (taban + artan)
+  const taban = otoAdet > 0 ? Math.floor(kalan / otoAdet) : 0;
+  const artan = otoAdet > 0 ? kalan % otoAdet : 0;
+  let otoSira = 0;
+  const boylar = girilen.map((v) => {
+    if (v !== null) return v;
+    const boy = taban + (otoSira < artan ? 1 : 0);
+    otoSira++;
+    return boy;
+  });
+
+  const araliklar: [number, number][] = [];
+  let i = 0;
+  for (const boy of boylar) {
+    araliklar.push([i, i + boy - 1]);
+    i += boy;
+  }
+  return { ok: true, boylar, araliklar };
 }
+
+const PARCA_HAZIR = [2, 3, 4, 5, 10];
 
 export default function PdfSplit() {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [reading, setReading] = useState(false);
-  const [mode, setMode] = useState<Mode>("perPart");
-  const [value, setValue] = useState("10");
+  const [parcaSayisi, setParcaSayisi] = useState("2");
+  const [boyutlar, setBoyutlar] = useState<string[]>(["", ""]);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState("");
   const [error, setError] = useState("");
@@ -38,7 +86,11 @@ export default function PdfSplit() {
     setReading(true);
     try {
       const doc = await PDFDocument.load(await next.arrayBuffer());
-      setPageCount(doc.getPageCount());
+      const n = doc.getPageCount();
+      setPageCount(n);
+      const bas = Math.min(2, Math.max(1, n));
+      setParcaSayisi(String(bas));
+      setBoyutlar(Array(bas).fill(""));
     } catch {
       setError("PDF açılamadı. Dosya bozuk veya şifreli/korumalı olabilir.");
       setFile(null);
@@ -47,34 +99,28 @@ export default function PdfSplit() {
     }
   }
 
-  const n = parseInt(value, 10);
-  const gecerliSayi = Number.isFinite(n) && n >= 1;
+  function parcaSayisiDegistir(ham: string) {
+    const temiz = ham.replace(/[^\d]/g, "");
+    setParcaSayisi(temiz);
+    const n = parseInt(temiz, 10);
+    if (!Number.isFinite(n) || n < 1) return;
+    const hedef = Math.min(n, Math.max(pageCount, 1));
+    setBoyutlar((onceki) => Array.from({ length: hedef }, (_, i) => onceki[i] ?? ""));
+  }
 
-  // Her parça en az 1 sayfa olacağına göre, parça sayısı sayfa sayısını aşamaz.
-  const maksParca = pageCount;
-  const etkinN = mode === "partCount" && gecerliSayi ? Math.min(n, maksParca) : n;
-  const ranges = buildRanges(pageCount, mode, etkinN);
-
-  // Kullanıcıya önceden söylenmesi gereken durumlar
+  const N = boyutlar.length;
+  const girilen = boyutlar.map((s) => {
+    const v = parseInt(s, 10);
+    return Number.isFinite(v) ? v : null;
+  });
+  const plan = pageCount > 0 ? planla(pageCount, girilen) : null;
   const bolunemez = pageCount === 1;
-  const sayiAsildi = gecerliSayi && mode === "partCount" && n > maksParca && !bolunemez;
-  const tekParcaCikiyor = gecerliSayi && !bolunemez && ranges.length === 1;
-  const bolunebilir = ranges.length > 1;
+  const hazir = !!plan?.ok && N >= 2 && !bolunemez;
+  const sabitToplam = girilen.reduce<number>((a, v) => a + (v ?? 0), 0);
+  const otoAdet = girilen.filter((v) => v === null).length;
 
   async function handleRun() {
-    if (!file || pageCount === 0) return;
-    if (bolunemez) {
-      setError("Tek sayfalık belge bölünemez.");
-      return;
-    }
-    if (ranges.length === 0) {
-      setError("Geçerli bir sayı girin.");
-      return;
-    }
-    if (ranges.length === 1) {
-      setError("Bu ayarla tek parça çıkıyor; bölmeye gerek yok.");
-      return;
-    }
+    if (!file || !plan?.ok || !hazir) return;
     setLoading(true);
     setError("");
     setProgress("");
@@ -82,18 +128,20 @@ export default function PdfSplit() {
       const src = await PDFDocument.load(await file.arrayBuffer());
       const base = file.name.replace(/\.[^.]+$/, "");
       const zip = new JSZip();
-      const pad = String(ranges.length).length;
+      const pad = String(plan.araliklar.length).length;
 
-      for (let i = 0; i < ranges.length; i++) {
-        setProgress(`Parça ${i + 1} / ${ranges.length}`);
-        const [from, to] = ranges[i];
+      for (let i = 0; i < plan.araliklar.length; i++) {
+        setProgress(`Parça ${i + 1} / ${plan.araliklar.length}`);
+        const [from, to] = plan.araliklar[i];
         const out = await PDFDocument.create();
         const indices = Array.from({ length: to - from + 1 }, (_, k) => from + k);
         const copied = await out.copyPages(src, indices);
         copied.forEach((p) => out.addPage(p));
         const bytes = await out.save();
-        const ad = `${base}-${String(i + 1).padStart(pad, "0")}_sayfa-${from + 1}-${to + 1}.pdf`;
-        zip.file(ad, bytes);
+        zip.file(
+          `${base}-${String(i + 1).padStart(pad, "0")}_sayfa-${from + 1}-${to + 1}.pdf`,
+          bytes
+        );
       }
 
       setProgress("ZIP hazırlanıyor...");
@@ -107,127 +155,111 @@ export default function PdfSplit() {
     }
   }
 
-  const onlyDigits = (v: string) => v.replace(/[^\d]/g, "");
-  // Hazır değerlerden yalnızca bu belgede anlamlı olanları göster
-  const presets = (mode === "perPart" ? [1, 5, 10, 25, 50] : [2, 3, 4, 5]).filter((p) =>
-    mode === "perPart" ? p < pageCount : p <= maksParca
-  );
-
   return (
     <ToolShell
       title="PDF"
       accent="Böl"
-      subtitle="PDF dosyasını belirlediğiniz sayfa sayısına göre parçalara ayırın."
-      steps={["Dosya Seç", "Ayarla", "Böl"]}
-      current={ranges.length > 1 ? 3 : file ? 2 : 1}
+      subtitle="Kaç parça olacağını seçin; isterseniz her parçanın sayfa sayısını kendiniz belirleyin."
+      steps={["Dosya Seç", "Parçaları Ayarla", "Böl"]}
+      current={hazir ? 3 : file ? 2 : 1}
     >
       <Dropzone accept="application/pdf" files={file ? [file] : []} onFiles={handleFiles} />
 
       {reading && <p className="mt-4 text-xs text-[var(--ink-dim)]">PDF okunuyor...</p>}
 
-      {pageCount > 0 && (
+      {pageCount > 0 && !bolunemez && (
         <>
-          <div className="mt-5 space-y-4">
-            <div className="flex gap-2">
-              <button
-                onClick={() => setMode("perPart")}
-                className={`label btn-3d min-h-[44px] flex-1 border py-2 ${
-                  mode === "perPart"
-                    ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]"
-                    : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"
-                }`}
-              >
-                Parça başına sayfa
-              </button>
-              <button
-                onClick={() => setMode("partCount")}
-                className={`label btn-3d min-h-[44px] flex-1 border py-2 ${
-                  mode === "partCount"
-                    ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]"
-                    : "border-[var(--rule-2)] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"
-                }`}
-              >
-                Toplam parça sayısı
-              </button>
-            </div>
-
-            <div>
-              <label htmlFor="bolme-sayisi" className="label mb-2 block">
-                {mode === "perPart" ? "Her parçada kaç sayfa" : "Kaç parçaya bölünsün"}
-              </label>
-              <input
-                id="bolme-sayisi"
-                value={value}
-                onChange={(e) => setValue(onlyDigits(e.target.value))}
-                inputMode="numeric"
-                placeholder={mode === "perPart" ? "örn: 10" : "örn: 3"}
-                className="field"
-              />
-            </div>
-
-            {presets.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {presets.map((p) => (
+          <div className="mt-5">
+            <label htmlFor="parca-sayisi" className="label mb-2 block">
+              Kaç parçaya bölünsün
+            </label>
+            <input
+              id="parca-sayisi"
+              value={parcaSayisi}
+              onChange={(e) => parcaSayisiDegistir(e.target.value)}
+              inputMode="numeric"
+              className="field"
+            />
+            <div className="mt-2 flex flex-wrap gap-2">
+              {PARCA_HAZIR.filter((p) => p <= pageCount).map((p) => (
                 <button
                   key={p}
-                  onClick={() => setValue(String(p))}
+                  onClick={() => parcaSayisiDegistir(String(p))}
                   className="chip btn-3d inline-flex items-center justify-center border border-[var(--rule-2)] bg-[var(--paper-3)] px-2 py-1 text-[11px] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"
                 >
                   {p}
                 </button>
               ))}
+              <button
+                onClick={() => setBoyutlar(Array(N).fill(""))}
+                className="chip btn-3d inline-flex items-center justify-center border border-[var(--rule-2)] bg-[var(--paper-3)] px-3 py-1 text-[11px] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"
+              >
+                Eşit dağıt
+              </button>
             </div>
+            {parseInt(parcaSayisi, 10) > pageCount && (
+              <p className="mt-2 text-xs text-[var(--accent)]">
+                {pageCount} sayfalık belge en fazla {pageCount} parçaya bölünebilir.
+              </p>
             )}
           </div>
 
           <div className="mt-5 border border-[var(--rule)]">
-            <p className="band">Önizleme</p>
-            <div className="row flex items-center justify-between gap-3 px-3 py-1.5">
+            <p className="band">Parçalar</p>
+
+            {boyutlar.map((deger, i) => (
+              <div key={i} className="row flex items-center gap-3 px-3 py-2">
+                <span className="label diamond shrink-0">{i + 1}. parça</span>
+                <input
+                  aria-label={`${i + 1}. parçanın sayfa sayısı`}
+                  value={deger}
+                  onChange={(e) => {
+                    const v = e.target.value.replace(/[^\d]/g, "");
+                    setBoyutlar((o) => o.map((x, k) => (k === i ? v : x)));
+                  }}
+                  inputMode="numeric"
+                  placeholder="otomatik"
+                  className="field ml-auto w-24 py-1 text-center"
+                />
+                <span className="w-16 shrink-0 text-right text-xs text-[var(--ink-dim)]">
+                  {plan?.ok ? `${plan.boylar[i]} sayfa` : "—"}
+                </span>
+              </div>
+            ))}
+
+            <div className="row flex items-center justify-between gap-3 px-3 py-2">
               <span className="label diamond">Belge</span>
-              <span className="text-sm text-[var(--ink)]">{pageCount} sayfa</span>
-            </div>
-            <div className="row flex items-center justify-between gap-3 px-3 py-1.5">
-              <span className="label diamond">Sonuç</span>
               <span className="text-sm text-[var(--ink)]">
-                {ranges.length > 0 ? `${ranges.length} parça` : "—"}
+                {pageCount} sayfa
+                {otoAdet > 0 && (
+                  <span className="ml-2 text-xs text-[var(--ink-dim)]">
+                    ({sabitToplam} elle, {pageCount - sabitToplam} otomatik)
+                  </span>
+                )}
               </span>
             </div>
 
-            {bolunemez && (
+            {plan && !plan.ok && (
               <div className="row px-3 py-2">
-                <p className="text-xs text-[var(--accent)]">
-                  Bu belge tek sayfa; bölünecek bir şey yok.
-                </p>
+                <p className="text-xs text-[var(--accent)]">{plan.mesaj}</p>
               </div>
             )}
 
-            {sayiAsildi && (
+            {plan?.ok && N < 2 && (
               <div className="row px-3 py-2">
-                <p className="text-xs text-[var(--accent)]">
-                  {pageCount} sayfalık belge en fazla {maksParca} parçaya bölünebilir
-                  (her parçada en az 1 sayfa). {maksParca} parça olarak hesaplandı.
-                </p>
+                <p className="text-xs text-[var(--accent)]">Bölmek için en az 2 parça gerekir.</p>
               </div>
             )}
 
-            {tekParcaCikiyor && !sayiAsildi && (
-              <div className="row px-3 py-2">
-                <p className="text-xs text-[var(--accent)]">
-                  {mode === "perPart"
-                    ? `Parça başına ${n} sayfa seçilince belgenin tamamı tek parça kalıyor. Daha küçük bir sayı girin.`
-                    : "Tek parça bölme sayılmaz; en az 2 girin."}
-                </p>
-              </div>
-            )}
-            {ranges.length > 0 && (
+            {plan?.ok && N >= 2 && (
               <div className="row px-3 py-2">
                 <p className="text-xs leading-relaxed text-[var(--ink-dim)]">
-                  {ranges.slice(0, 8).map(([a, b], i) => (
-                    <span key={i} className="mr-2 inline-block whitespace-nowrap">
+                  {plan.araliklar.slice(0, 10).map(([a, b], k) => (
+                    <span key={k} className="mr-2 inline-block whitespace-nowrap">
                       {a === b ? `s.${a + 1}` : `s.${a + 1}–${b + 1}`}
                     </span>
                   ))}
-                  {ranges.length > 8 && <span>... +{ranges.length - 8} parça</span>}
+                  {plan.araliklar.length > 10 && <span>... +{plan.araliklar.length - 10}</span>}
                 </p>
               </div>
             )}
@@ -235,10 +267,16 @@ export default function PdfSplit() {
         </>
       )}
 
-      <PrimaryButton onClick={handleRun} disabled={!file || !bolunebilir || loading}>
+      {bolunemez && (
+        <p className="mt-5 text-xs text-[var(--accent)]">
+          Bu belge tek sayfa; bölünecek bir şey yok.
+        </p>
+      )}
+
+      <PrimaryButton onClick={handleRun} disabled={!hazir || loading}>
         {loading ? progress || "Bölünüyor..." : "Böl"}
       </PrimaryButton>
-      {bolunebilir && !loading && (
+      {hazir && !loading && (
         <p className="mt-3 text-center text-[11px] text-[var(--ink-faint)]">
           Parçalar tek bir ZIP dosyası olarak inecek.
         </p>
