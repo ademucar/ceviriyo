@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import { groups } from "@/app/lib/nav";
 
 export const metadata: Metadata = {
   title: "Gizlilik Politikası — Çeviriyo",
   description: "Dosyalarınız cihazınızdan çıkmaz. Çeviriyo'nun gizlilik politikası.",
 };
 
-const UPDATED = "15 Ağustos 2026";
+const UPDATED = "5 Ekim 2026";
+
+// Araç listesi menüden türetilir; yeni araç eklenince bu metin kendiliğinden güncellenir.
+const ARACLAR = groups.flatMap((g) => g.items.map((i) => i.label)).join(", ");
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -54,9 +58,8 @@ export default function Privacy() {
 
         <Section title="Dosyalarınıza ne oluyor?">
           <p>
-            Çeviriyo&apos;daki tüm araçlar (görsel dönüştürme, kırpma, boyutlandırma, sıkıştırma,
-            PDF birleştirme, sayfa seçme ve PDF&ndash;görsel dönüşümleri) tamamen tarayıcınızın
-            içinde çalışır. Seçtiğiniz dosya internete hiçbir şekilde yüklenmez.
+            Çeviriyo&apos;daki tüm araçlar ({ARACLAR}) tamamen tarayıcınızın içinde çalışır.
+            Seçtiğiniz dosya internete hiçbir şekilde yüklenmez.
           </p>
           <p>
             İşlem bittiğinde sonuç doğrudan cihazınıza indirilir. Sekmeyi kapattığınızda geriye
