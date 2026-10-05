@@ -17,6 +17,7 @@ export const groups: NavGroup[] = [
     items: [
       { href: "/pdf-gorsel", label: "PDF → Görsel" },
       { href: "/pdf-birlestir", label: "PDF Birleştir" },
+      { href: "/pdf-bol", label: "PDF Böl" },
       { href: "/pdf-sayfa", label: "Sayfa Seç / Sil" },
     ],
   },

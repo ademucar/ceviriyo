@@ -327,6 +327,9 @@ input[type="range"]::-moz-range-thumb {
 
   .field { padding-top: 0.72rem; padding-bottom: 0.72rem; }
 
+  /* hazır değer düğmeleri de parmakla basılabilir olsun */
+  .chip { min-height: 44px; min-width: 44px; }
+
   /* Alt bilgi bağlantıları da parmakla basılabilir olsun */
   .foot-link {
     display: inline-flex;

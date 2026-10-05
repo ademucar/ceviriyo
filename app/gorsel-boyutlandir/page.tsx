@@ -94,7 +94,7 @@ export default function ImageResize() {
                   setMaxWidth(String(p));
                   setMaxHeight("");
                 }}
-                className="btn-3d border border-[var(--rule-2)] bg-[var(--paper-3)] px-2 py-1 text-[11px] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"
+                className="chip btn-3d inline-flex items-center justify-center border border-[var(--rule-2)] bg-[var(--paper-3)] px-2 py-1 text-[11px] text-[var(--ink-dim)] hover:border-[var(--ink)] hover:text-[var(--ink)]"
               >
                 {p}px genişlik
               </button>
