@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import ResultBar from "@/app/components/ResultBar";
 import { useImageProcessor } from "@/app/lib/useImageProcessor";
 import { extFor, outputTypeFor, renderImage } from "@/app/lib/image";
@@ -26,6 +27,13 @@ export default function ImageResize() {
 
   const { file, url, imgRef, onImageLoad, selectFile, decoding, result, busy, error, download } =
     useImageProcessor(render);
+
+  function temizle() {
+    setMaxWidth("");
+    setMaxHeight("");
+    setFormat(null);
+    selectFile([]);
+  }
 
   function handleFiles(files: File[]) {
     setMaxWidth("");
@@ -114,6 +122,7 @@ export default function ImageResize() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
+      <ClearButton onClear={temizle} show={!!file && !busy} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );

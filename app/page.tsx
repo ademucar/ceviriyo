@@ -3,6 +3,7 @@ import { useState } from "react";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import { downloadBlob } from "@/app/lib/download";
 import { decodeToDrawable, isHeic, renderWithFallback } from "@/app/lib/image";
 
@@ -18,6 +19,12 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+
+  function temizle() {
+    setFile(null);
+    setError("");
+    setNotice("");
+  }
 
   async function handleConvert() {
     if (!file) return;
@@ -72,6 +79,7 @@ export default function Home() {
         </select>
       </div>
       <PrimaryButton onClick={handleConvert} disabled={!file || loading}>{loading ? "Dönüştürülüyor..." : "Dönüştür"}</PrimaryButton>
+      <ClearButton onClear={temizle} show={!!file && !loading} />
       {notice && <p className="mt-4 text-xs text-[var(--accent)]">{notice}</p>}
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>

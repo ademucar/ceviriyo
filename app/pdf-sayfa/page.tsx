@@ -5,6 +5,7 @@ import { PDFDocument } from "pdf-lib";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import { downloadBlob } from "@/app/lib/download";
 
 function parsePages(input: string, total: number): number[] {
@@ -29,6 +30,12 @@ export default function PdfPages() {
   const [pages, setPages] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  function temizle() {
+    setFile(null);
+    setPages("");
+    setError("");
+  }
 
   async function handleRun() {
     if (!file) { setError("PDF seçin."); return; }
@@ -80,6 +87,7 @@ export default function PdfPages() {
         </div>
       </div>
       <PrimaryButton onClick={handleRun} disabled={!file || loading}>{loading ? "Uygulanıyor..." : "Uygula"}</PrimaryButton>
+      <ClearButton onClear={temizle} show={!!file && !loading} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );

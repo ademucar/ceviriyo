@@ -5,6 +5,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import ResultBar from "@/app/components/ResultBar";
 import { useImageProcessor } from "@/app/lib/useImageProcessor";
 import { extFor, outputTypeFor, renderImage } from "@/app/lib/image";
@@ -21,6 +22,13 @@ export default function ImageCrop() {
 
   const { file, url, imgRef, onImageLoad, selectFile, decoding, result, busy, error, download } =
     useImageProcessor(render);
+
+  function temizle() {
+    setCrop(undefined);
+    setCompletedCrop(null);
+    setFormat(null);
+    selectFile([]);
+  }
 
   function handleFiles(files: File[]) {
     setCrop(undefined);
@@ -85,6 +93,7 @@ export default function ImageCrop() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
+      <ClearButton onClear={temizle} show={!!file && !busy} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );

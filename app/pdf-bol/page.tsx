@@ -5,6 +5,7 @@ import JSZip from "jszip";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import { downloadBlob } from "@/app/lib/download";
 
 type Plan =
@@ -76,6 +77,7 @@ export default function PdfSplit() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState("");
   const [error, setError] = useState("");
+  const [herKac, setHerKac] = useState("");
 
   async function handleFiles(files: File[]) {
     const next = files[0] ?? null;
@@ -91,6 +93,7 @@ export default function PdfSplit() {
       const bas = Math.min(2, Math.max(1, n));
       setParcaSayisi(String(bas));
       setBoyutlar(Array(bas).fill(""));
+      setHerKac("");
     } catch {
       setError("PDF açılamadı. Dosya bozuk veya şifreli/korumalı olabilir.");
       setFile(null);
@@ -106,6 +109,28 @@ export default function PdfSplit() {
     if (!Number.isFinite(n) || n < 1) return;
     const hedef = Math.min(n, Math.max(pageCount, 1));
     setBoyutlar((onceki) => Array.from({ length: hedef }, (_, i) => onceki[i] ?? ""));
+  }
+
+  /** "Her N sayfada böl" kısayolu: parça sayısını hesaplar, boyutları N'e sabitler. */
+  function herKacSayfada(ham: string) {
+    const temiz = ham.replace(/[^\d]/g, "");
+    setHerKac(temiz);
+    const n = parseInt(temiz, 10);
+    if (!Number.isFinite(n) || n < 1 || pageCount < 1) return;
+    const adet = Math.ceil(pageCount / n);
+    setParcaSayisi(String(adet));
+    // Son parça kalanı alsın diye otomatik bırakılır
+    setBoyutlar(Array.from({ length: adet }, (_, i) => (i === adet - 1 ? "" : String(n))));
+  }
+
+  function temizle() {
+    setFile(null);
+    setPageCount(0);
+    setParcaSayisi("2");
+    setBoyutlar(["", ""]);
+    setHerKac("");
+    setError("");
+    setProgress("");
   }
 
   const N = boyutlar.length;
@@ -197,6 +222,21 @@ export default function PdfSplit() {
                 Eşit dağıt
               </button>
             </div>
+            <div className="mt-3 flex items-center gap-2">
+              <label htmlFor="her-kac" className="label shrink-0">
+                Kısayol: her
+              </label>
+              <input
+                id="her-kac"
+                value={herKac}
+                onChange={(e) => herKacSayfada(e.target.value)}
+                inputMode="numeric"
+                placeholder="10"
+                className="field w-20 py-1 text-center"
+              />
+              <span className="label shrink-0">sayfada böl</span>
+            </div>
+
             {parseInt(parcaSayisi, 10) > pageCount && (
               <p className="mt-2 text-xs text-[var(--accent)]">
                 {pageCount} sayfalık belge en fazla {pageCount} parçaya bölünebilir.
@@ -281,6 +321,7 @@ export default function PdfSplit() {
           Parçalar tek bir ZIP dosyası olarak inecek.
         </p>
       )}
+      <ClearButton onClear={temizle} show={!!file && !loading} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );

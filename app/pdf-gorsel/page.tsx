@@ -4,6 +4,7 @@ import JSZip from "jszip";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import { downloadBlob } from "@/app/lib/download";
 
 export default function PdfToImage() {
@@ -11,6 +12,12 @@ export default function PdfToImage() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState("");
   const [error, setError] = useState("");
+
+  function temizle() {
+    setFile(null);
+    setError("");
+    setProgress("");
+  }
 
   async function handleConvert() {
     if (!file) return;
@@ -77,6 +84,7 @@ export default function PdfToImage() {
       <PrimaryButton onClick={handleConvert} disabled={!file || loading}>
         {loading ? progress || "Dönüştürülüyor..." : "Görsele Çevir"}
       </PrimaryButton>
+      <ClearButton onClear={temizle} show={!!file && !loading} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );

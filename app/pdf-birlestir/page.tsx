@@ -4,12 +4,18 @@ import { PDFDocument } from "pdf-lib";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import { downloadBlob } from "@/app/lib/download";
 
 export default function PdfMerge() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  function temizle() {
+    setFiles([]);
+    setError("");
+  }
 
   async function handleRun() {
     setError("");
@@ -40,6 +46,7 @@ export default function PdfMerge() {
     <ToolShell title="PDF" accent="Birleştir" subtitle="Birden fazla PDF seçin; seçtiğiniz sırayla tek PDF olur." steps={["Dosya Seç", "Birleştir"]} current={files.length ? 2 : 1}>
       <Dropzone accept="application/pdf" multiple files={files} onFiles={setFiles} />
       <PrimaryButton onClick={handleRun} disabled={loading}>{loading ? "Birleştiriliyor..." : "Birleştir"}</PrimaryButton>
+      <ClearButton onClear={temizle} show={files.length > 0 && !loading} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );

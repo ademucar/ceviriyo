@@ -4,6 +4,7 @@ import { PDFDocument } from "pdf-lib";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import { downloadBlob } from "@/app/lib/download";
 
 const A4 = { w: 595.28, h: 841.89 };
@@ -35,6 +36,11 @@ export default function ImageToPdf() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  function temizle() {
+    setFiles([]);
+    setError("");
+  }
+
   async function handleConvert() {
     if (files.length === 0) return;
     setLoading(true);
@@ -65,6 +71,7 @@ export default function ImageToPdf() {
     <ToolShell title="Görsellerden" accent="PDF'e" subtitle="Birden fazla görsel seçin; her biri ayrı sayfa olur.Tek bir PDF dosyası haline gelir." steps={["Dosya Seç", "PDF Oluştur"]} current={files.length ? 2 : 1}>
       <Dropzone accept="image/*" multiple files={files} onFiles={setFiles} />
       <PrimaryButton onClick={handleConvert} disabled={files.length === 0 || loading}>{loading ? "Oluşturuluyor..." : "PDF Oluştur"}</PrimaryButton>
+      <ClearButton onClear={temizle} show={files.length > 0 && !loading} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );

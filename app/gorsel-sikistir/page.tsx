@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import ClearButton from "@/app/components/ClearButton";
 import ResultBar from "@/app/components/ResultBar";
 import { useImageProcessor } from "@/app/lib/useImageProcessor";
 import { extFor, isLossy, outputTypeFor, renderImage } from "@/app/lib/image";
@@ -18,6 +19,11 @@ export default function ImageCompress() {
 
   const { file, url, imgRef, onImageLoad, selectFile, decoding, result, busy, error, download } =
     useImageProcessor(render);
+
+  function temizle() {
+    setFormat(null);
+    selectFile([]);
+  }
 
   function handleFiles(files: File[]) {
     setFormat(files[0] ? outputTypeFor(files[0]) : null);
@@ -86,6 +92,7 @@ export default function ImageCompress() {
       >
         {busy ? "Hazırlanıyor..." : "İndir"}
       </PrimaryButton>
+      <ClearButton onClear={temizle} show={!!file && !busy} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}
     </ToolShell>
   );
