@@ -5,6 +5,7 @@ import ToolShell from "@/app/components/ToolShell";
 import Dropzone from "@/app/components/Dropzone";
 import PrimaryButton from "@/app/components/PrimaryButton";
 import ClearButton from "@/app/components/ClearButton";
+import FileList from "@/app/components/FileList";
 import { downloadBlob } from "@/app/lib/download";
 
 export default function PdfMerge() {
@@ -45,6 +46,7 @@ export default function PdfMerge() {
   return (
     <ToolShell title="PDF" accent="Birleştir" subtitle="Birden fazla PDF seçin; seçtiğiniz sırayla tek PDF olur." steps={["Dosya Seç", "Birleştir"]} current={files.length ? 2 : 1}>
       <Dropzone accept="application/pdf" multiple files={files} onFiles={setFiles} />
+      <FileList files={files} onChange={setFiles} aciklama="PDF'ler yukarıdaki sırayla birleştirilir." />
       <PrimaryButton onClick={handleRun} disabled={loading}>{loading ? "Birleştiriliyor..." : "Birleştir"}</PrimaryButton>
       <ClearButton onClear={temizle} show={files.length > 0 && !loading} />
       {error && <p className="mt-4 text-xs text-[var(--accent)]">{error}</p>}

@@ -12,6 +12,21 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);
 
+  /**
+   * Çoklu seçimde yeni dosyalar mevcut listenin SONUNA eklenir.
+   * (Eskiden listeyi tamamen değiştiriyordu; ikinci seçimde ilk dosyalar kayboluyordu.)
+   * Aynı dosya iki kez seçilirse tekrar eklenmez.
+   */
+  function ekle(yeni: File[]) {
+    if (!multiple) {
+      onFiles(yeni.slice(0, 1));
+      return;
+    }
+    const anahtar = (f: File) => `${f.name}|${f.size}|${f.lastModified}`;
+    const mevcut = new Set(files.map(anahtar));
+    onFiles([...files, ...yeni.filter((f) => !mevcut.has(anahtar(f)))]);
+  }
+
   return (
     <div
       role="button"
@@ -32,8 +47,7 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
       onDrop={(e) => {
         e.preventDefault();
         setDrag(false);
-        const dropped = Array.from(e.dataTransfer.files);
-        onFiles(multiple ? dropped : dropped.slice(0, 1));
+        ekle(Array.from(e.dataTransfer.files));
       }}
       className={`cursor-pointer border border-dashed px-4 py-7 text-center transition-colors ${
         drag
@@ -48,7 +62,7 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
         multiple={multiple}
         hidden
         onChange={(e) => {
-          onFiles(Array.from(e.target.files ?? []));
+          ekle(Array.from(e.target.files ?? []));
           e.target.value = "";
         }}
       />
@@ -68,7 +82,7 @@ export default function Dropzone({ accept, multiple, files, onFiles }: Props) {
             <span className="ml-2 text-[var(--accent)]">&#9670;</span>
           </p>
           <p className="mt-1 truncate text-xs text-[var(--ink-dim)]">
-            {files.map((f) => f.name).join(", ")}
+            {multiple ? "Eklemek için tekrar tıklayın ya da sürükleyin" : files[0]?.name}
           </p>
         </div>
       )}
